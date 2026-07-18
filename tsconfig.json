@@ -24,8 +24,9 @@
     "paths": {
       "/*": ["src/*"],
       "@infrastructure/*": ["src/infrastructure/*"],
-      "@services/*": ["src/shared/services/*"],
       "@modules/*": ["src/modules/*"],
+      "@services/*": ["src/shared/services/*"],
+      "@interfaces": ["src/shared/interfaces/"],
     }
   }
 }

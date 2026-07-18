@@ -1,23 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { VerifyOtpDto } from './dto/verify.dto';
+import { UsersService } from '@services/users/users.service';
+import type { User as PrismaUser } from '@infrastructure/prisma/generated/client.js';
 
 @Injectable()
 export class AuthService {
   otpExpiresIn = 1 * 60 * 1000; // 1 minute in milliseconds
   constructor(
-    private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly usersService: UsersService,
   ) {}
 
   async register(dto: RegisterDto) {
-    const existingUser = await this.prisma.user.findUnique({
-      where: {
-        email: dto.email,
-      },
-    });
+    const existingUser: PrismaUser | null =
+      await this.usersService.getUserByEmail(dto.email);
 
     // Exit if existing user and has an active OTP that hasn't expired yet
     if (
@@ -40,26 +38,18 @@ export class AuthService {
     let message: string = 'generated';
 
     if (existingUser) {
-      await this.prisma.user.update({
-        where: {
-          email: dto.email,
-        },
-        data: {
-          otp,
-          otpCreatedAt: new Date(),
-          otpExpiresAt: expiresAt,
-        },
+      await this.usersService.updateUserByEmail(dto.email, {
+        otp,
+        otpCreatedAt: new Date(),
+        otpExpiresAt: expiresAt,
       });
     } else {
       message = 'User created';
-      await this.prisma.user.create({
-        data: {
-          email: dto.email,
-          otp,
-          otpCreatedAt: new Date(),
-          otpExpiresAt: expiresAt,
-          emailVerified: false,
-        },
+      await this.usersService.createUser(dto.email, {
+        otp,
+        otpCreatedAt: new Date(),
+        otpExpiresAt: expiresAt,
+        emailVerified: false,
       });
     }
 
@@ -72,11 +62,7 @@ export class AuthService {
   }
 
   async verifyOtp(dto: VerifyOtpDto) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        email: dto.email,
-      },
-    });
+    const user = await this.usersService.getUserByEmail(dto.email);
 
     if (!user) {
       throw new BadRequestException('Invalid email or OTP');
@@ -94,16 +80,11 @@ export class AuthService {
       throw new BadRequestException('OTP expired');
     }
 
-    const updatedUser = await this.prisma.user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        emailVerified: true,
-        otp: null,
-        otpCreatedAt: null,
-        otpExpiresAt: null,
-      },
+    const updatedUser = await this.usersService.updateUserById(user.id, {
+      emailVerified: true,
+      otp: null,
+      otpCreatedAt: null,
+      otpExpiresAt: null,
     });
 
     const token = await this.jwtService.signAsync({
