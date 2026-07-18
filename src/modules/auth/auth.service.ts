@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { VerifyOtpDto } from './dto/verify.dto';
 import { UsersService } from '@services/users/users.service';
 import type { User as PrismaUser } from '@infrastructure/prisma/generated/client.js';
+import { MailService } from '@infrastructure/mail/mail.service';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +12,7 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
+    private readonly mailService: MailService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -52,6 +54,13 @@ export class AuthService {
         emailVerified: false,
       });
     }
+
+    await this.mailService.sendFromAdminToUser(dto.email, {
+      type: 'otp',
+      data: {
+        otp,
+      },
+    });
 
     return {
       message: message,
