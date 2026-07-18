@@ -19,18 +19,27 @@ export class AuthService {
       },
     });
 
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    // Exit if existing user and has an active OTP that hasn't expired yet
+    if (
+      existingUser &&
+      existingUser.otpExpiresAt &&
+      existingUser.otpExpiresAt > new Date()
+    ) {
+      return {
+        message: 'duplicate',
+        otp: existingUser.otp,
+        expiresAfter: this.getOtpExpiresIn(existingUser.otpExpiresAt),
+        isNewUser: !existingUser.emailVerified,
+      };
+    }
+
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
 
     const expiresAt = new Date(Date.now() + this.otpExpiresIn);
 
+    let message: string = 'generated';
+
     if (existingUser) {
-      if (existingUser.otpExpiresAt && existingUser.otpExpiresAt > new Date()) {
-        return {
-          message: 'duplicate',
-          otp: existingUser.otp,
-          expiresAfter: this.getOtpExpiresIn(existingUser.otpExpiresAt),
-        };
-      }
       await this.prisma.user.update({
         where: {
           email: dto.email,
@@ -41,27 +50,24 @@ export class AuthService {
           otpExpiresAt: expiresAt,
         },
       });
-
-      return {
-        message: 'generated',
-        otp,
-        expiresAfter: this.getOtpExpiresIn(expiresAt),
-      };
+    } else {
+      message = 'User created';
+      await this.prisma.user.create({
+        data: {
+          email: dto.email,
+          otp,
+          otpCreatedAt: new Date(),
+          otpExpiresAt: expiresAt,
+          emailVerified: false,
+        },
+      });
     }
 
-    const user = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        otp,
-        otpCreatedAt: new Date(),
-        otpExpiresAt: expiresAt,
-      },
-    });
-
     return {
-      message: 'User created',
+      message: message,
       otp,
-      user,
+      expiresAfter: this.getOtpExpiresIn(expiresAt),
+      isNewUser: !existingUser,
     };
   }
 
