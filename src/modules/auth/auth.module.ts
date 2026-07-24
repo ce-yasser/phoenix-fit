@@ -9,7 +9,7 @@ import { UsersService } from '@services/users/users.service';
   imports: [
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '100d' },
     }),
   ],
   providers: [AuthService, UsersService],
