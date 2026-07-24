@@ -27,6 +27,8 @@
       "@modules/*": ["src/modules/*"],
       "@services/*": ["src/shared/services/*"],
       "@interfaces": ["src/shared/interfaces/"],
+      "@decorators/*": ["src/shared/decorators/*"],
+      "@guards/*": ["src/shared/guards/*"],
     }
   }
 }

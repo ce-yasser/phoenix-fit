@@ -1,18 +1,29 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
 import * as otpTemplate from './templates/otp.template';
 import * as I from '@interfaces';
 
 @Injectable()
 export class MailService {
-  private readonly resend = new Resend(process.env.RESEND_API_KEY);
+  private readonly resend: Resend;
+
+  constructor(private readonly configService: ConfigService) {
+    const apiKey = this.configService.get<string>('RESEND_API_KEY');
+
+    if (!apiKey) {
+      throw new Error('RESEND_API_KEY is not set. Add it to your .env file.');
+    }
+
+    this.resend = new Resend(apiKey);
+  }
 
   async sendFromAdminToUser(email: string, context: I.MailContext) {
     await this.resend.emails.send({
-      from: process.env.EMAIL_FROM || '',
+      from: this.configService.get<string>('EMAIL_FROM') || '',
       to: email,
       subject: this.getContextSubject(context),
-      html: this.getContextTemplate(context)
+      html: this.getContextTemplate(context),
     });
   }
 
@@ -35,5 +46,4 @@ export class MailService {
         throw new Error('Unknown mail context type');
     }
   }
-
 }

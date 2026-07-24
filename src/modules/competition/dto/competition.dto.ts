@@ -1,4 +1,12 @@
-import { IsIn, IsNumber, IsNumberString, IsString, Length, Min, ValidationArguments } from 'class-validator';
+import {
+  IsIn,
+  IsNumber,
+  IsNumberString,
+  IsString,
+  Length,
+  Min,
+  ValidationArguments,
+} from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CompetitionDto {
