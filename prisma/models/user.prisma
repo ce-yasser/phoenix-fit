@@ -1,0 +1,18 @@
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  role          Role      @default(USER)
+  competitions  Competition[]
+  otp           String?
+  otpExpiresAt  DateTime?
+  otpCreatedAt  DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+
+enum Role {
+  USER
+  ADMIN
+}

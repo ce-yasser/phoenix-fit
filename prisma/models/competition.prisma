@@ -1,0 +1,16 @@
+model Competition {
+  id            String    @id @default(uuid())
+  competition   String
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  data          Json
+  status        RegistrationStatus    @default(PENDING)
+  submittedAt   DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum RegistrationStatus {
+  PENDING
+  CONFIRMED
+  REJECTED
+}
