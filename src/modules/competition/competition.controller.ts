@@ -1,4 +1,12 @@
-import { Controller, Post, Body, UseGuards, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Get,
+  Query,
+  Param,
+} from '@nestjs/common';
 import { CurrentUser } from '@decorators/current-user.decorator';
 import { JwtAuthGuard } from '@guards/jwt-auth/jwt-auth.guard';
 import type { JwtPayload } from '@interfaces';
@@ -28,5 +36,11 @@ export class CompetitionController {
     @Query() filters: FilterAugust2026Dto,
   ) {
     return this.competitionService.getAll(user.sub, filters);
+  }
+
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  getById(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
+    return this.competitionService.getCompetitionById(id, user.sub, user.role);
   }
 }

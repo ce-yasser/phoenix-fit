@@ -23,8 +23,18 @@ export class CompetitionService {
   }
 
   async getAll(userId: number, filters: any) {
-    return await this._competitionsService.findAll(
-      {...filters, slug: 'august2026', userId},
+    return await this._competitionsService.findAll({
+      ...filters,
+      slug: 'august2026',
+      userId,
+    });
+  }
+
+  getCompetitionById(id: string, userId: number, role: string) {
+    return this._competitionsService.getCompetitionById(
+      id,
+      userId,
+      role === 'ADMIN',
     );
   }
 }

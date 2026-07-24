@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
-import type { Prisma, Competition as PrismaCompetition } from '@infrastructure/prisma/generated/client';
+import type {
+  Prisma,
+  Competition as PrismaCompetition,
+} from '@infrastructure/prisma/generated/client';
 import * as I from '@interfaces';
 
 @Injectable()
@@ -97,10 +100,23 @@ export class CompetitionsService {
     };
   }
 
-  getCompetitionById(id: string): Promise<PrismaCompetition | null> {
-    return this.prisma.competition.findUnique({
+  getCompetitionById(
+    id: string,
+    userId: number,
+    isAdmin = false,
+  ): Promise<PrismaCompetition | null> {
+    if (isAdmin) {
+      return this.prisma.competition.findUnique({
+        where: {
+          id,
+        },
+      });
+    }
+
+    return this.prisma.competition.findFirst({
       where: {
         id,
+        userId,
       },
     });
   }
