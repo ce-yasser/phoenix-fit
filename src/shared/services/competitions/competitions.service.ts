@@ -8,7 +8,7 @@ export class CompetitionsService {
   constructor(private readonly prisma: PrismaService) {}
 
   submitCompetition(
-    userId: string,
+    userId: number,
     slug: string,
     data: I.CompetitionData,
   ): Promise<PrismaCompetition> {
@@ -57,7 +57,17 @@ export class CompetitionsService {
         ...(category
           ? [{ data: { path: ['category'], equals: category } }]
           : []),
-        ...(name ? [{ data: { path: ['name'], string_contains: name } }] : []),
+        ...(name
+          ? [
+              {
+                data: {
+                  path: ['name'],
+                  string_contains: name,
+                  mode: 'insensitive',
+                },
+              },
+            ]
+          : []),
         ...(phone
           ? [{ data: { path: ['phone'], string_contains: phone } }]
           : []),
@@ -76,7 +86,6 @@ export class CompetitionsService {
       this.prisma.competition.count({ where }),
     ]);
 
-    console.log('registrations', registrations);
     return {
       data: registrations,
       meta: {
@@ -88,13 +97,13 @@ export class CompetitionsService {
     };
   }
 
-  // getCompetitionById(id: string): Promise<PrismaCompetition | null> {
-  //   // return this.prisma.competition.findUnique({
-  //   //   where: {
-  //   //     id,
-  //   //   },
-  //   // });
-  // }
+  getCompetitionById(id: string): Promise<PrismaCompetition | null> {
+    return this.prisma.competition.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
 
   // updateCompetitionById(
   //   id: string,

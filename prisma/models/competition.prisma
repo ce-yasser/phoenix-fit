@@ -1,7 +1,7 @@
 model Competition {
-  id            String    @id @default(uuid())
+  id            String    @id @default(ulid())
   competition   String
-  userId        String
+  userId        Int
   user          User      @relation(fields: [userId], references: [id])
   data          Json
   status        RegistrationStatus    @default(PENDING)

@@ -7,7 +7,7 @@ export class CompetitionService {
   constructor(private readonly _competitionsService: CompetitionsService) {}
 
   async submitAugust2026(
-    userId: string,
+    userId: number,
     competitionDto: August2026Competition,
   ) {
     const competition = await this._competitionsService.submitCompetition(
@@ -22,7 +22,7 @@ export class CompetitionService {
     };
   }
 
-  async getAll(userId: string, filters: any) {
+  async getAll(userId: number, filters: any) {
     return await this._competitionsService.findAll(
       {...filters, slug: 'august2026', userId},
     );

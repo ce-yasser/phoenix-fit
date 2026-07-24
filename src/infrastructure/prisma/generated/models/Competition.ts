@@ -20,14 +20,24 @@ export type CompetitionModel = runtime.Types.Result.DefaultSelection<Prisma.$Com
 
 export type AggregateCompetition = {
   _count: CompetitionCountAggregateOutputType | null
+  _avg: CompetitionAvgAggregateOutputType | null
+  _sum: CompetitionSumAggregateOutputType | null
   _min: CompetitionMinAggregateOutputType | null
   _max: CompetitionMaxAggregateOutputType | null
+}
+
+export type CompetitionAvgAggregateOutputType = {
+  userId: number | null
+}
+
+export type CompetitionSumAggregateOutputType = {
+  userId: number | null
 }
 
 export type CompetitionMinAggregateOutputType = {
   id: string | null
   competition: string | null
-  userId: string | null
+  userId: number | null
   status: $Enums.RegistrationStatus | null
   submittedAt: Date | null
   updatedAt: Date | null
@@ -36,7 +46,7 @@ export type CompetitionMinAggregateOutputType = {
 export type CompetitionMaxAggregateOutputType = {
   id: string | null
   competition: string | null
-  userId: string | null
+  userId: number | null
   status: $Enums.RegistrationStatus | null
   submittedAt: Date | null
   updatedAt: Date | null
@@ -53,6 +63,14 @@ export type CompetitionCountAggregateOutputType = {
   _all: number
 }
 
+
+export type CompetitionAvgAggregateInputType = {
+  userId?: true
+}
+
+export type CompetitionSumAggregateInputType = {
+  userId?: true
+}
 
 export type CompetitionMinAggregateInputType = {
   id?: true
@@ -121,6 +139,18 @@ export type CompetitionAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: CompetitionAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: CompetitionSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: CompetitionMinAggregateInputType
@@ -151,6 +181,8 @@ export type CompetitionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: CompetitionCountAggregateInputType | true
+  _avg?: CompetitionAvgAggregateInputType
+  _sum?: CompetitionSumAggregateInputType
   _min?: CompetitionMinAggregateInputType
   _max?: CompetitionMaxAggregateInputType
 }
@@ -158,12 +190,14 @@ export type CompetitionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type CompetitionGroupByOutputType = {
   id: string
   competition: string
-  userId: string
+  userId: number
   data: runtime.JsonValue
   status: $Enums.RegistrationStatus
   submittedAt: Date
   updatedAt: Date
   _count: CompetitionCountAggregateOutputType | null
+  _avg: CompetitionAvgAggregateOutputType | null
+  _sum: CompetitionSumAggregateOutputType | null
   _min: CompetitionMinAggregateOutputType | null
   _max: CompetitionMaxAggregateOutputType | null
 }
@@ -189,7 +223,7 @@ export type CompetitionWhereInput = {
   NOT?: Prisma.CompetitionWhereInput | Prisma.CompetitionWhereInput[]
   id?: Prisma.StringFilter<"Competition"> | string
   competition?: Prisma.StringFilter<"Competition"> | string
-  userId?: Prisma.StringFilter<"Competition"> | string
+  userId?: Prisma.IntFilter<"Competition"> | number
   data?: Prisma.JsonFilter<"Competition">
   status?: Prisma.EnumRegistrationStatusFilter<"Competition"> | $Enums.RegistrationStatus
   submittedAt?: Prisma.DateTimeFilter<"Competition"> | Date | string
@@ -214,7 +248,7 @@ export type CompetitionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CompetitionWhereInput[]
   NOT?: Prisma.CompetitionWhereInput | Prisma.CompetitionWhereInput[]
   competition?: Prisma.StringFilter<"Competition"> | string
-  userId?: Prisma.StringFilter<"Competition"> | string
+  userId?: Prisma.IntFilter<"Competition"> | number
   data?: Prisma.JsonFilter<"Competition">
   status?: Prisma.EnumRegistrationStatusFilter<"Competition"> | $Enums.RegistrationStatus
   submittedAt?: Prisma.DateTimeFilter<"Competition"> | Date | string
@@ -231,8 +265,10 @@ export type CompetitionOrderByWithAggregationInput = {
   submittedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CompetitionCountOrderByAggregateInput
+  _avg?: Prisma.CompetitionAvgOrderByAggregateInput
   _max?: Prisma.CompetitionMaxOrderByAggregateInput
   _min?: Prisma.CompetitionMinOrderByAggregateInput
+  _sum?: Prisma.CompetitionSumOrderByAggregateInput
 }
 
 export type CompetitionScalarWhereWithAggregatesInput = {
@@ -241,7 +277,7 @@ export type CompetitionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CompetitionScalarWhereWithAggregatesInput | Prisma.CompetitionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Competition"> | string
   competition?: Prisma.StringWithAggregatesFilter<"Competition"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"Competition"> | string
+  userId?: Prisma.IntWithAggregatesFilter<"Competition"> | number
   data?: Prisma.JsonWithAggregatesFilter<"Competition">
   status?: Prisma.EnumRegistrationStatusWithAggregatesFilter<"Competition"> | $Enums.RegistrationStatus
   submittedAt?: Prisma.DateTimeWithAggregatesFilter<"Competition"> | Date | string
@@ -261,7 +297,7 @@ export type CompetitionCreateInput = {
 export type CompetitionUncheckedCreateInput = {
   id?: string
   competition: string
-  userId: string
+  userId: number
   data: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.RegistrationStatus
   submittedAt?: Date | string
@@ -281,7 +317,7 @@ export type CompetitionUpdateInput = {
 export type CompetitionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   competition?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -291,7 +327,7 @@ export type CompetitionUncheckedUpdateInput = {
 export type CompetitionCreateManyInput = {
   id?: string
   competition: string
-  userId: string
+  userId: number
   data: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.RegistrationStatus
   submittedAt?: Date | string
@@ -310,7 +346,7 @@ export type CompetitionUpdateManyMutationInput = {
 export type CompetitionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   competition?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -325,6 +361,10 @@ export type CompetitionCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type CompetitionAvgOrderByAggregateInput = {
+  userId?: Prisma.SortOrder
 }
 
 export type CompetitionMaxOrderByAggregateInput = {
@@ -343,6 +383,10 @@ export type CompetitionMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type CompetitionSumOrderByAggregateInput = {
+  userId?: Prisma.SortOrder
 }
 
 export type CompetitionListRelationFilter = {
@@ -365,6 +409,14 @@ export type EnumRegistrationStatusFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type CompetitionCreateNestedManyWithoutUserInput = {
@@ -459,7 +511,7 @@ export type CompetitionScalarWhereInput = {
   NOT?: Prisma.CompetitionScalarWhereInput | Prisma.CompetitionScalarWhereInput[]
   id?: Prisma.StringFilter<"Competition"> | string
   competition?: Prisma.StringFilter<"Competition"> | string
-  userId?: Prisma.StringFilter<"Competition"> | string
+  userId?: Prisma.IntFilter<"Competition"> | number
   data?: Prisma.JsonFilter<"Competition">
   status?: Prisma.EnumRegistrationStatusFilter<"Competition"> | $Enums.RegistrationStatus
   submittedAt?: Prisma.DateTimeFilter<"Competition"> | Date | string
@@ -566,7 +618,7 @@ export type $CompetitionPayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     competition: string
-    userId: string
+    userId: number
     data: runtime.JsonValue
     status: $Enums.RegistrationStatus
     submittedAt: Date
@@ -997,7 +1049,7 @@ export interface Prisma__CompetitionClient<T, Null = never, ExtArgs extends runt
 export interface CompetitionFieldRefs {
   readonly id: Prisma.FieldRef<"Competition", 'String'>
   readonly competition: Prisma.FieldRef<"Competition", 'String'>
-  readonly userId: Prisma.FieldRef<"Competition", 'String'>
+  readonly userId: Prisma.FieldRef<"Competition", 'Int'>
   readonly data: Prisma.FieldRef<"Competition", 'Json'>
   readonly status: Prisma.FieldRef<"Competition", 'RegistrationStatus'>
   readonly submittedAt: Prisma.FieldRef<"Competition", 'DateTime'>

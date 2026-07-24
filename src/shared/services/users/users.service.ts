@@ -25,7 +25,7 @@ export class UsersService {
     });
   }
 
-  updateUserById(id: string, data: Partial<PrismaUser>): Promise<PrismaUser> {
+  updateUserById(id: number, data: Partial<PrismaUser>): Promise<PrismaUser> {
     return this.prisma.user.update({
       where: {
         id,
