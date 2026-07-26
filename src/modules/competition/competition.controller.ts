@@ -25,11 +25,10 @@ export class CompetitionController {
     @Body()
     competitionDto: August2026Dto,
   ) {
-    // Handle the competition submission logic here
     return this.competitionService.submitAugust2026(user.sub, competitionDto);
   }
 
-  @Get('all')
+  @Get()
   @UseGuards(JwtAuthGuard)
   getAllCompetitions(
     @CurrentUser() user: JwtPayload,
