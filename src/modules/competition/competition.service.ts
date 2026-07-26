@@ -1,10 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import type { August2026Competition } from '@interfaces';
 import { CompetitionsService } from '@services/competitions/competitions.service';
+import { Prisma } from '@infrastructure/prisma/generated/client';
+import { StorageService } from '@services/storage/storage.service';
 
 @Injectable()
 export class CompetitionService {
-  constructor(private readonly _competitionsService: CompetitionsService) {}
+  constructor(
+    private readonly _competitionsService: CompetitionsService,
+    private readonly storageService: StorageService,
+  ) {}
 
   async submitAugust2026(
     userId: number,
@@ -18,7 +23,7 @@ export class CompetitionService {
 
     return {
       message: 'Competition registered successfully',
-      data: competitionDto,
+      data: { id: competition.id, status: competition.status },
     };
   }
 
@@ -30,11 +35,59 @@ export class CompetitionService {
     });
   }
 
-  getCompetitionById(id: string, userId: number, role: string) {
-    return this._competitionsService.getCompetitionById(
+  async getCompetitionById(id: string, userId: number, role: string) {
+    const competition = await this._competitionsService.getCompetitionById(
       id,
       userId,
       role === 'ADMIN',
     );
+    if (!competition) {
+      throw new MethodNotAllowedException(
+        'Competition not found or access denied',
+      );
+    }
+    return { data: competition };
+  }
+
+  async uploadPayment(
+    id: string,
+    userId: number,
+    role: string,
+    file: Express.Multer.File,
+  ) {
+    const competition = await this._competitionsService.getCompetitionById(
+      id,
+      userId,
+      role === 'ADMIN',
+    );
+    const fileRelativePath = 'payments/' + file.filename;
+    if (!competition) {
+      this.storageService.delete(fileRelativePath);
+      throw new MethodNotAllowedException(
+        'Competition not found or access denied',
+      );
+    }
+
+    if (!['CREATED', 'REJECTED'].includes(competition.status)) {
+      this.storageService.delete(fileRelativePath);
+      throw new MethodNotAllowedException(
+        'Payment cannot be uploaded for this competition at the moment, please contact us for further assistance.',
+      );
+    }
+
+    const updatedCompetition =
+      await this._competitionsService.updateCompetitionById(id, {
+        payment: [fileRelativePath, ...competition.payment],
+        status: 'PENDING',
+        history: [
+          {
+            time: new Date().toISOString(),
+            value: 'Payment uploaded successfully',
+          },
+          ...competition.history,
+        ] as Prisma.InputJsonValue[],
+      });
+
+    return { data: updatedCompetition };
   }
 }

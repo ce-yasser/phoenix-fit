@@ -19,7 +19,13 @@ export class CompetitionsService {
       data: {
         userId,
         competition: slug,
-        status: 'PENDING',
+        history: [
+          {
+            time: new Date().toISOString(),
+            value: 'Competition registered successfully.',
+          },
+        ],
+        status: 'CREATED',
         data: data as Record<string, any>,
       },
     });
@@ -100,38 +106,35 @@ export class CompetitionsService {
     };
   }
 
-  getCompetitionById(
+  async getCompetitionById(
     id: string,
     userId: number,
     isAdmin = false,
   ): Promise<PrismaCompetition | null> {
-    if (isAdmin) {
-      return this.prisma.competition.findUnique({
-        where: {
-          id,
-        },
-      });
-    }
-
-    return this.prisma.competition.findFirst({
+    const competition = await this.prisma.competition.findUnique({
       where: {
         id,
-        userId,
       },
     });
+
+    if (!competition || (!isAdmin && competition?.userId !== userId)) {
+      return null;
+    }
+
+    return competition;
   }
 
-  // updateCompetitionById(
-  //   id: string,
-  //   data: Partial<PrismaCompetition>,
-  // ): Promise<PrismaCompetition> {
-  //   // return this.prisma.competition.update({
-  //   //   where: {
-  //   //     id,
-  //   //   },
-  //   //   data,
-  //   // });
-  // }
+  updateCompetitionById(
+    id: string,
+    data: Prisma.CompetitionUpdateInput,
+  ): Promise<PrismaCompetition> {
+    return this.prisma.competition.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
 
   // // This method is now redundant since updateCompetitionById covers updating by ID
 

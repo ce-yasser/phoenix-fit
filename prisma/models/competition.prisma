@@ -5,12 +5,16 @@ model Competition {
   user          User      @relation(fields: [userId], references: [id])
   data          Json
   status        RegistrationStatus    @default(PENDING)
+  history       Json[]    @default([])
+  payment       String[]  @default([])
   submittedAt   DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
 
 enum RegistrationStatus {
-  PENDING
-  CONFIRMED
-  REJECTED
+  CREATED // User registered, not paid
+  PENDING // User paid, and waiting for admin approval
+  CONFIRMED // Admin approved
+  REJECTED // Admin rejected, with reason
+  CANCELED // User canceled registration
 }

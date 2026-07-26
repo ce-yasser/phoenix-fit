@@ -26,10 +26,12 @@ export class AuthService {
       existingUser.otpExpiresAt > new Date()
     ) {
       return {
-        message: 'duplicate',
-        otp: existingUser.otp,
-        expiresAfter: this.getOtpExpiresIn(existingUser.otpExpiresAt),
-        isNewUser: !existingUser.emailVerified,
+        data: {
+          message: 'duplicate',
+          otp: existingUser.otp,
+          expiresAfter: this.getOtpExpiresIn(existingUser.otpExpiresAt),
+          isNewUser: !existingUser.emailVerified,
+        },
       };
     }
 
@@ -63,10 +65,12 @@ export class AuthService {
     });
 
     return {
-      message: message,
-      otp,
-      expiresAfter: this.getOtpExpiresIn(expiresAt),
-      isNewUser: !existingUser,
+      data: {
+        message: message,
+        otp,
+        expiresAfter: this.getOtpExpiresIn(expiresAt),
+        isNewUser: !existingUser,
+      },
     };
   }
 
@@ -96,14 +100,14 @@ export class AuthService {
       otpExpiresAt: null,
     });
 
-    const token = await this.jwtService.signAsync({
+    const accessToken = await this.jwtService.signAsync({
       sub: updatedUser.id,
       email: updatedUser.email,
       role: updatedUser.role,
     });
 
     return {
-      accessToken: token,
+      data: { accessToken },
     };
   }
 

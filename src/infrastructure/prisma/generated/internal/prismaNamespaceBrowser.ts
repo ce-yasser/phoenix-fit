@@ -77,6 +77,8 @@ export const CompetitionScalarFieldEnum = {
   userId: 'userId',
   data: 'data',
   status: 'status',
+  history: 'history',
+  payment: 'payment',
   submittedAt: 'submittedAt',
   updatedAt: 'updatedAt'
 } as const

@@ -9,7 +9,7 @@ export interface August2026Competition {
   phone: string;
 }
 
-export interface  FilterAugust2026Competition {
+export interface FilterAugust2026Competition {
   slug?: string;
   status?: RegistrationStatus;
   email?: string;

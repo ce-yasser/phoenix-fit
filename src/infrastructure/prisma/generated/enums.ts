@@ -10,9 +10,11 @@
 */
 
 export const RegistrationStatus = {
+  CREATED: 'CREATED',
   PENDING: 'PENDING',
   CONFIRMED: 'CONFIRMED',
-  REJECTED: 'REJECTED'
+  REJECTED: 'REJECTED',
+  CANCELED: 'CANCELED'
 } as const
 
 export type RegistrationStatus = (typeof RegistrationStatus)[keyof typeof RegistrationStatus]

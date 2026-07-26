@@ -6,7 +6,6 @@ import { UsersModule } from '@modules/users/users.module';
 import { PrismaModule } from '@infrastructure/prisma/prisma.module';
 import { MailModule } from '@infrastructure/mail/mail.module';
 import { AuthModule } from '@modules/auth/auth.module';
-import { CompetitionController } from './modules/competition/competition.controller';
 import { CompetitionModule } from './modules/competition/competition.module';
 
 @Module({
