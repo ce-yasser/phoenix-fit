@@ -39,7 +39,6 @@ export class CompetitionService {
     const competition = await this._competitionsService.getCompetitionById(
       id,
       userId,
-      role === 'ADMIN',
     );
     if (!competition) {
       throw new MethodNotAllowedException(
