@@ -1,7 +1,10 @@
-import { Controller, Get, Query, Param } from '@nestjs/common';
+import { Controller, Get, Query, Param, Put, Body } from '@nestjs/common';
 import { AdminCompetitionService } from './admin-competition.service';
 import { FilterAugust2026Dto } from '@dtos/filterAugust2026.dto';
 import { BaseAdminController } from '../base-admin.controller';
+import { CurrentUser } from '@decorators/current-user.decorator';
+import type { JwtPayload } from '@interfaces';
+import { UpdateStatusDto } from './dto/updateStatus.dto';
 
 @Controller('competition')
 export class AdminCompetitionController extends BaseAdminController {
@@ -17,5 +20,14 @@ export class AdminCompetitionController extends BaseAdminController {
   @Get(':id')
   getById(@Param('id') id: string) {
     return this.competitionService.getCompetitionById(id);
+  }
+
+  @Put(':id')
+  updateStatus(
+    @CurrentUser() user: JwtPayload,
+    @Param('id') id: string,
+    @Body() body: UpdateStatusDto,
+  ) {
+    return this.competitionService.updateStatus(id, body.status, user.sub);
   }
 }

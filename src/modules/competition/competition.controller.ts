@@ -7,6 +7,7 @@ import {
   Query,
   Param,
   UploadedFile,
+  Put,
 } from '@nestjs/common';
 import { CurrentUser } from '@decorators/current-user.decorator';
 import { JwtAuthGuard } from '@guards/jwt-auth/jwt-auth.guard';
@@ -15,6 +16,7 @@ import { CompetitionService } from './competition.service';
 import { August2026Dto } from './dto/august2026.dto';
 import { FilterAugust2026Dto } from '@dtos/filterAugust2026.dto';
 import { UploadInterceptor } from '@interceptors/upload.interceptor';
+import { UpdateStatusDto } from './dto/updateStatus.dto';
 
 @Controller('competition')
 export class CompetitionController {
@@ -61,5 +63,16 @@ export class CompetitionController {
     file: Express.Multer.File,
   ) {
     return this.competitionService.uploadPayment(id, user.sub, user.role, file);
+  }
+
+  @Put(':id')
+  @UseGuards(JwtAuthGuard)
+  updateStatus(
+    @CurrentUser() user: JwtPayload,
+    @Param('id') id: string,
+    @Body() statusDto: UpdateStatusDto,
+  ) {
+    console.log('statusDto:', statusDto);
+    return this.competitionService.updateStatus(id, user.sub, statusDto.status);
   }
 }

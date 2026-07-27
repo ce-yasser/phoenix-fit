@@ -81,6 +81,40 @@ export class CompetitionService {
           {
             time: new Date().toISOString(),
             value: 'Payment uploaded successfully',
+            userId: userId,
+          },
+          ...competition.history,
+        ] as Prisma.InputJsonValue[],
+      });
+
+    return { data: updatedCompetition };
+  }
+
+  async updateStatus(id: string, userId: number, status: string) {
+    const competition = await this._competitionsService.getCompetitionById(
+      id,
+      userId,
+    );
+    if (!competition) {
+      throw new MethodNotAllowedException(
+        'Registration not found or access denied',
+      );
+    }
+
+    if (competition.status === status || status !== 'CANCELED') {
+      throw new MethodNotAllowedException(
+        'Invalid status update, please contact us for further assistance.',
+      );
+    }
+
+    const updatedCompetition =
+      await this._competitionsService.updateCompetitionById(id, {
+        status: status,
+        history: [
+          {
+            time: new Date().toISOString(),
+            value: `Status updated to ${status}`,
+            userId: userId,
           },
           ...competition.history,
         ] as Prisma.InputJsonValue[],
