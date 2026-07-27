@@ -13,7 +13,7 @@ import { JwtAuthGuard } from '@guards/jwt-auth/jwt-auth.guard';
 import type { JwtPayload } from '@interfaces';
 import { CompetitionService } from './competition.service';
 import { August2026Dto } from './dto/august2026.dto';
-import { FilterAugust2026Dto } from './dto/filterAugust2026.dto';
+import { FilterAugust2026Dto } from '@dtos/filterAugust2026.dto';
 import { UploadInterceptor } from '@interceptors/upload.interceptor';
 
 @Controller('competition')

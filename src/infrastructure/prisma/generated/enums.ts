@@ -22,7 +22,8 @@ export type RegistrationStatus = (typeof RegistrationStatus)[keyof typeof Regist
 
 export const Role = {
   USER: 'USER',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
+  SYSADMIN: 'SYSADMIN'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]

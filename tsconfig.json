@@ -30,6 +30,7 @@
       "@decorators/*": ["src/shared/decorators/*"],
       "@guards/*": ["src/shared/guards/*"],
       "@interceptors/*": ["src/shared/interceptors/*"],
+      "@dtos/*": ["src/shared/dtos/*"],
     }
   }
 }

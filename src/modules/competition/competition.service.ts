@@ -42,7 +42,7 @@ export class CompetitionService {
     );
     if (!competition) {
       throw new MethodNotAllowedException(
-        'Competition not found or access denied',
+        'Registration not found or access denied',
       );
     }
     return { data: competition };
@@ -57,20 +57,19 @@ export class CompetitionService {
     const competition = await this._competitionsService.getCompetitionById(
       id,
       userId,
-      role === 'ADMIN',
     );
     const fileRelativePath = 'payments/' + file.filename;
     if (!competition) {
       this.storageService.delete(fileRelativePath);
       throw new MethodNotAllowedException(
-        'Competition not found or access denied',
+        'Registration not found or access denied',
       );
     }
 
     if (!['CREATED', 'REJECTED'].includes(competition.status)) {
       this.storageService.delete(fileRelativePath);
       throw new MethodNotAllowedException(
-        'Payment cannot be uploaded for this competition at the moment, please contact us for further assistance.',
+        'Payment cannot be uploaded for this registration at the moment, please contact us for further assistance.',
       );
     }
 
