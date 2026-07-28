@@ -15,6 +15,11 @@ async function bootstrap() {
     }),
   );
 
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  });
+
   const configService = app.get(ConfigService);
   await app.listen(Number(configService.get<string>('PORT') ?? 5500));
 }
