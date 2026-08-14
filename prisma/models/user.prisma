@@ -2,6 +2,7 @@ model User {
   id            Int       @id @default(autoincrement())
   email         String    @unique
   emailVerified Boolean   @default(false)
+  name          String?
   role          Role      @default(USER)
   competitions  Competition[]
   otp           String?

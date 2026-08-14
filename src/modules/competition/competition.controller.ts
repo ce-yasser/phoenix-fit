@@ -19,11 +19,11 @@ import { UploadInterceptor } from '@interceptors/upload.interceptor';
 import { UpdateStatusDto } from './dto/updateStatus.dto';
 
 @Controller('competition')
+@UseGuards(JwtAuthGuard)
 export class CompetitionController {
   constructor(private readonly competitionService: CompetitionService) {}
 
   @Post('august2026')
-  @UseGuards(JwtAuthGuard)
   submitCompetition(
     @CurrentUser() user: JwtPayload,
     @Body()
@@ -33,7 +33,6 @@ export class CompetitionController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
   getAllCompetitions(
     @CurrentUser() user: JwtPayload,
     @Query() filters: FilterAugust2026Dto,
@@ -42,13 +41,11 @@ export class CompetitionController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
   getById(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
     return this.competitionService.getCompetitionById(id, user.sub, user.role);
   }
 
   @Post(':id')
-  @UseGuards(JwtAuthGuard)
   @UploadInterceptor({
     fieldName: 'payment',
     destination: '/payments',
@@ -66,13 +63,11 @@ export class CompetitionController {
   }
 
   @Put(':id')
-  @UseGuards(JwtAuthGuard)
   updateStatus(
     @CurrentUser() user: JwtPayload,
     @Param('id') id: string,
     @Body() statusDto: UpdateStatusDto,
   ) {
-    console.log('statusDto:', statusDto);
     return this.competitionService.updateStatus(id, user.sub, statusDto.status);
   }
 }

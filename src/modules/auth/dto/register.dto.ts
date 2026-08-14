@@ -1,8 +1,9 @@
 import { Transform } from 'class-transformer';
-import { IsEmail } from 'class-validator';
+import { IsString, Length } from 'class-validator';
 
 export class RegisterDto {
+  @IsString()
   @Transform(({ value }) => value?.trim())
-  @IsEmail({}, { message: 'Invalid email address.' })
-  email!: string;
+  @Length(2, 36)
+  name!: string;
 }

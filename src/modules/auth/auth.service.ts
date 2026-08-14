@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { VerifyOtpDto } from './dto/verify.dto';
 import { UsersService } from '@services/users/users.service';
@@ -15,7 +15,7 @@ export class AuthService {
     private readonly mailService: MailService,
   ) {}
 
-  async register(dto: RegisterDto) {
+  async login(dto: LoginDto) {
     const existingUser: PrismaUser | null =
       await this.usersService.getUserByEmail(dto.email);
 
@@ -107,8 +107,17 @@ export class AuthService {
     });
 
     return {
-      data: { accessToken },
+      data: { accessToken, isRegistered: !!user.name },
     };
+  }
+
+  async register(userId: number, name: string) {
+    const user = await this.usersService.getUserById(userId);
+    if (user?.name) {
+      throw new BadRequestException('User already registered');
+    }
+    await this.usersService.updateUserById(userId, { name });
+    return { data: { success: true } };
   }
 
   private getOtpExpiresIn(expiresAt: Date): number {

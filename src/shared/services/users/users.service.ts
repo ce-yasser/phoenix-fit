@@ -13,6 +13,14 @@ export class UsersService {
     });
   }
 
+  getUserById(id: number): Promise<PrismaUser | null> {
+    return this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
   updateUserByEmail(
     email: string,
     data: Partial<PrismaUser>,
