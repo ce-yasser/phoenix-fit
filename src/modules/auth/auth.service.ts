@@ -8,7 +8,8 @@ import { MailService } from '@infrastructure/mail/mail.service';
 
 @Injectable()
 export class AuthService {
-  otpExpiresIn = 1 * 60 * 1000; // 1 minute in milliseconds
+  otpExpiresIn = 10 * 60 * 1000; // 10 minutes in milliseconds
+  duplicateOtpWindowIn = 1 * 60 * 1000; // 1 minute in milliseconds
   constructor(
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
@@ -19,17 +20,19 @@ export class AuthService {
     const existingUser: PrismaUser | null =
       await this.usersService.getUserByEmail(dto.email);
 
-    // Exit if existing user and has an active OTP that hasn't expired yet
-    if (
-      existingUser &&
-      existingUser.otpExpiresAt &&
-      existingUser.otpExpiresAt > new Date()
-    ) {
+    const disableOtpGeneration =
+      existingUser?.otpCreatedAt &&
+      existingUser.otpCreatedAt.getTime() + this.duplicateOtpWindowIn >
+        Date.now();
+
+    if (disableOtpGeneration) {
       return {
         data: {
           message: 'duplicate',
           otp: existingUser.otp,
-          expiresAfter: this.getOtpExpiresIn(existingUser.otpExpiresAt),
+          expiresAfter: this.getDuplicateOtpWindow(
+            existingUser.otpCreatedAt || new Date(),
+          ),
           isNewUser: !existingUser.emailVerified,
         },
       };
@@ -38,20 +41,21 @@ export class AuthService {
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
 
     const expiresAt = new Date(Date.now() + this.otpExpiresIn);
+    const otpCreatedAt = new Date();
 
     let message: string = 'generated';
 
     if (existingUser) {
       await this.usersService.updateUserByEmail(dto.email, {
         otp,
-        otpCreatedAt: new Date(),
+        otpCreatedAt,
         otpExpiresAt: expiresAt,
       });
     } else {
       message = 'User created';
       await this.usersService.createUser(dto.email, {
         otp,
-        otpCreatedAt: new Date(),
+        otpCreatedAt,
         otpExpiresAt: expiresAt,
         emailVerified: false,
       });
@@ -68,7 +72,7 @@ export class AuthService {
       data: {
         message: message,
         otp,
-        expiresAfter: this.getOtpExpiresIn(expiresAt),
+        expiresAfter: this.getDuplicateOtpWindow(otpCreatedAt),
         isNewUser: !existingUser,
       },
     };
@@ -120,9 +124,9 @@ export class AuthService {
     return { data: { success: true } };
   }
 
-  private getOtpExpiresIn(expiresAt: Date): number {
+  private getDuplicateOtpWindow(createdAt: Date): number {
     const expiresAfterInSeconds = Math.floor(
-      (expiresAt.getTime() - Date.now()) / 1000,
+      (createdAt.getTime() + this.duplicateOtpWindowIn - Date.now()) / 1000,
     );
     return expiresAfterInSeconds;
   }
