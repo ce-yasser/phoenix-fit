@@ -90,7 +90,7 @@ export class AuthService {
     }
 
     if (user.otp !== dto.otp) {
-      throw new BadRequestException('Invalid email or OTP');
+      throw new BadRequestException('Invalid OTP code. Please try again!');
     }
 
     if (!user.otpExpiresAt || user.otpExpiresAt < new Date()) {
