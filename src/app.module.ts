@@ -7,7 +7,7 @@ import { PrismaModule } from '@infrastructure/prisma/prisma.module';
 import { MailModule } from '@infrastructure/mail/mail.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { CompetitionModule } from '@modules/competition/competition.module';
-import { RouterModule } from '@nestjs/core';
+import { ProfileModule } from '@modules/profile/profile.module';
 import { AdminModule } from '@modules/admin/admin.module';
 
 @Module({
@@ -21,6 +21,7 @@ import { AdminModule } from '@modules/admin/admin.module';
     MailModule,
     AuthModule,
     CompetitionModule,
+    ProfileModule,
     AdminModule,
   ],
   controllers: [AppController],
