@@ -41,7 +41,7 @@ export class MailService {
       case 'register':
         return 'Welcome to Phoenix Fit - Verify Your Email';
       case 'otp':
-        return otpTemplate.subject();
+        return otpTemplate.subject(context.data);
       default:
         throw new Error('Unknown mail context type');
     }

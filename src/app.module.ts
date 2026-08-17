@@ -9,6 +9,7 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { CompetitionModule } from '@modules/competition/competition.module';
 import { ProfileModule } from '@modules/profile/profile.module';
 import { AdminModule } from '@modules/admin/admin.module';
+import { GeneralModule } from '@modules/general/general.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AdminModule } from '@modules/admin/admin.module';
     CompetitionModule,
     ProfileModule,
     AdminModule,
+    GeneralModule
   ],
   controllers: [AppController],
   providers: [AppService],

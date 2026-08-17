@@ -22,6 +22,6 @@ export function template(data: I.MailOtpData): string {
   `;
 }
 
-export function subject(): string {
-  return 'Phoenix Fit - Your OTP Code';
+export function subject(data: I.MailOtpData): string {
+  return `Phoenix Fit - Your OTP Code is ${data.otp}`;
 }

@@ -6,7 +6,9 @@ import type { User as PrismaUser } from '@infrastructure/prisma/generated/client
 export class ProfileService {
   constructor(private readonly usersService: UsersService) {}
 
-  async getProfile(userId: number): Promise<Partial<PrismaUser> | null> {
+  async getProfile(
+    userId: number,
+  ): Promise<{ data: Partial<PrismaUser> } | null> {
     const user: Partial<PrismaUser> | null =
       await this.usersService.getUserById(userId);
     if (!user) return null;
@@ -14,13 +16,13 @@ export class ProfileService {
     delete user.otpCreatedAt;
     delete user.otpExpiresAt;
     delete user.emailVerified;
-    return user;
+    return { data: { ...user } };
   }
 
   async updateProfile(
     userId: number,
     data: Partial<PrismaUser>,
-  ): Promise<Partial<PrismaUser> | null> {
+  ): Promise<{ data: Partial<PrismaUser> } | null> {
     const user: Partial<PrismaUser> | null =
       await this.usersService.updateUserById(userId, data);
     if (!user) return null;
@@ -28,6 +30,6 @@ export class ProfileService {
     delete user.otpCreatedAt;
     delete user.otpExpiresAt;
     delete user.emailVerified;
-    return user;
+    return { data: { ...user } };
   }
 }
