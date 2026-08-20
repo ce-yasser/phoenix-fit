@@ -75,4 +75,13 @@ export const programs = {
       ],
     },
   ],
+  kids: {
+    fee: 600,
+    final: [
+      '10 jumping jacks',
+      '5 pull-ups',
+      '20 bodyweight squats',
+      '100m running challenge',
+    ],
+  },
 };

@@ -42,7 +42,7 @@ export class CompetitionController {
 
   @Get(':id')
   getById(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
-    return this.competitionService.getCompetitionById(id, user.sub, user.role);
+    return this.competitionService.getCompetitionById(id, user.sub);
   }
 
   @Post(':id')
@@ -59,7 +59,7 @@ export class CompetitionController {
     @UploadedFile()
     file: Express.Multer.File,
   ) {
-    return this.competitionService.uploadPayment(id, user.sub, user.role, file);
+    return this.competitionService.uploadPayment(id, user.sub, file);
   }
 
   @Put(':id')

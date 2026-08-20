@@ -35,7 +35,7 @@ export class CompetitionService {
     });
   }
 
-  async getCompetitionById(id: string, userId: number, role: string) {
+  async getCompetitionById(id: string, userId: number) {
     const competition = await this._competitionsService.getCompetitionById(
       id,
       userId,
@@ -48,16 +48,15 @@ export class CompetitionService {
     return { data: competition };
   }
 
-  async uploadPayment(
-    id: string,
-    userId: number,
-    role: string,
-    file: Express.Multer.File,
-  ) {
+  async uploadPayment(id: string, userId: number, file: Express.Multer.File) {
     const competition = await this._competitionsService.getCompetitionById(
       id,
       userId,
     );
+    console.log('file', competition);
+    if (!file) {
+      throw new MethodNotAllowedException('No file uploaded');
+    }
     const fileRelativePath = 'payments/' + file.filename;
     if (!competition) {
       this.storageService.delete(fileRelativePath);

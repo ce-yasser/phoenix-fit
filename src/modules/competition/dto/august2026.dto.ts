@@ -26,7 +26,7 @@ export class August2026Dto {
 
   @Transform(({ value }) => parseInt(value, 10))
   @IsNumber({}, { message: 'Age must be a number.' })
-  @Min(18)
+  @Min(12)
   age!: number;
 
   @Transform(({ value }) => value?.trim())
