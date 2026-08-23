@@ -1,4 +1,4 @@
-import type { RegistrationStatus } from '@infrastructure/prisma/generated/client';
+import type { RegistrationStatus } from '../../infrastructure/prisma/generated/client';
 
 export interface August2026Competition {
   gender: string;

@@ -1,13 +1,13 @@
 import { Injectable, MethodNotAllowedException } from '@nestjs/common';
-import { CompetitionsService } from '@services/competitions/competitions.service';
-import * as I from '@interfaces';
+import { CompetitionsService } from '../../../shared/services/competitions/competitions.service';
+import * as I from '../../../shared/interfaces';
 import {
   Prisma,
   RegistrationStatus,
-} from '/infrastructure/prisma/generated/client';
-import { UsersService } from '@services/users/users.service';
-import { QrCodeService } from '@services/competitions/generate-qr.service';
-import { MailService } from '@infrastructure/mail/mail.service';
+} from 'src/infrastructure/prisma/generated/client';
+import { UsersService } from '../../../shared/services/users/users.service';
+import { QrCodeService } from '../../../shared/services/competitions/generate-qr.service';
+import { MailService } from '../../../infrastructure/mail/mail.service';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()

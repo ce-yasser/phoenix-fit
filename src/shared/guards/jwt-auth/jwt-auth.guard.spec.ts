@@ -1,5 +1,5 @@
 import { JwtAuthGuard } from './jwt-auth.guard';
-import { PrismaService } from '@infrastructure/prisma/prisma.service';
+import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import { Reflector } from '@nestjs/core';
 
 describe('JwtAuthGuard', () => {

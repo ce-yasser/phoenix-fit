@@ -1,7 +1,7 @@
 // dto/filter-registrations.dto.ts
 import { IsOptional, IsString, IsEnum, IsInt, IsIn, Length } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { RegistrationStatus } from '@infrastructure/prisma/generated/client';
+import { RegistrationStatus } from '../../infrastructure/prisma/generated/client';
 
 export class FilterAugust2026Dto {
   @IsOptional()

@@ -2,9 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { VerifyOtpDto } from './dto/verify.dto';
-import { UsersService } from '@services/users/users.service';
-import type { User as PrismaUser } from '@infrastructure/prisma/generated/client.js';
-import { MailService } from '@infrastructure/mail/mail.service';
+import { UsersService } from '../../shared/services/users/users.service';
+import type { User as PrismaUser } from '../../infrastructure/prisma/generated/client.js';
+import { MailService } from '../../infrastructure/mail/mail.service';
 
 @Injectable()
 export class AuthService {

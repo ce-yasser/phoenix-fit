@@ -3,7 +3,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { randomUUID } from 'crypto';
-import { UploadOptions } from '@interfaces';
+import { UploadOptions } from '../interfaces';
 import { ConfigService } from '@nestjs/config';
 
 export function UploadInterceptor(options: UploadOptions) {

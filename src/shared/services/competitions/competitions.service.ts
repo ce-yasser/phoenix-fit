@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@infrastructure/prisma/prisma.service';
+import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import type {
   Prisma,
   Competition as PrismaCompetition,
-} from '@infrastructure/prisma/generated/client';
-import * as I from '@interfaces';
-import { programs } from '/modules/general/programs';
+} from '../../../infrastructure/prisma/generated/client';
+import * as I from '../../interfaces';
+import { programs } from 'src/modules/general/programs';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()

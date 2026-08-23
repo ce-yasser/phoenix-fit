@@ -1,9 +1,9 @@
 import { Controller, Get, Query, Param, Put, Body } from '@nestjs/common';
 import { AdminCompetitionService } from './admin-competition.service';
-import { FilterAugust2026Dto } from '@dtos/filterAugust2026.dto';
+import { FilterAugust2026Dto } from '../../../shared/dtos/filterAugust2026.dto';
 import { BaseAdminController } from '../base-admin.controller';
-import { CurrentUser } from '@decorators/current-user.decorator';
-import type { JwtPayload } from '@interfaces';
+import { CurrentUser } from '../../../shared/decorators/current-user.decorator';
+import type { JwtPayload } from '../../../shared/interfaces';
 import { UpdateStatusDto } from './dto/updateStatus.dto';
 
 @Controller('competition')

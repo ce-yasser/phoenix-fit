@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PrismaModule } from '@infrastructure/prisma/prisma.module';
-import { MailModule } from '@infrastructure/mail/mail.module';
-import { AuthModule } from '@modules/auth/auth.module';
-import { CompetitionModule } from '@modules/competition/competition.module';
-import { ProfileModule } from '@modules/profile/profile.module';
-import { AdminModule } from '@modules/admin/admin.module';
-import { GeneralModule } from '@modules/general/general.module';
+import { PrismaModule } from './infrastructure/prisma/prisma.module';
+import { MailModule } from './infrastructure/mail/mail.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { CompetitionModule } from './modules/competition/competition.module';
+import { ProfileModule } from './modules/profile/profile.module';
+import { AdminModule } from './modules/admin/admin.module';
+import { GeneralModule } from './modules/general/general.module';
 
 @Module({
   imports: [

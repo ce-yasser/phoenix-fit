@@ -20,17 +20,6 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false,
-    "paths": {
-      "/*": ["src/*"],
-      "@infrastructure/*": ["src/infrastructure/*"],
-      "@modules/*": ["src/modules/*"],
-      "@services/*": ["src/shared/services/*"],
-      "@interfaces": ["src/shared/interfaces/"],
-      "@decorators/*": ["src/shared/decorators/*"],
-      "@guards/*": ["src/shared/guards/*"],
-      "@interceptors/*": ["src/shared/interceptors/*"],
-      "@dtos/*": ["src/shared/dtos/*"],
-    }
+    "noFallthroughCasesInSwitch": false
   }
 }

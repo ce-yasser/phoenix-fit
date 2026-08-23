@@ -6,7 +6,7 @@ import * as receivedTemplate from './templates/registration-received.template';
 import * as rejectedTemplate from './templates/registration-rejected.template';
 import Mailgun from 'mailgun.js';
 import FormData from 'form-data';
-import * as I from '@interfaces';
+import * as I from '../../shared/interfaces';
 
 @Injectable()
 export class MailService {

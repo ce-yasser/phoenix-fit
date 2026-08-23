@@ -1,4 +1,4 @@
-import * as I from '@interfaces';
+import * as I from '../../../shared/interfaces';
 import { BaseEmailTemplate } from './base-email.template';
 
 export function template(data: I.MailOtpData): string {

@@ -5,7 +5,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import type { JwtPayload } from '@interfaces';
+import type { JwtPayload } from '../../interfaces';
 
 @Injectable()
 export class AdminGuard extends AuthGuard('jwt') implements CanActivate {

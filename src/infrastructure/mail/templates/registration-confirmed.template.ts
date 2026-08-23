@@ -1,4 +1,4 @@
-import * as I from '@interfaces';
+import * as I from '../../../shared/interfaces';
 import { BaseEmailTemplate } from './base-email.template';
 import { ConfigService } from '@nestjs/config';
 

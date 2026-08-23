@@ -10,9 +10,9 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { VerifyOtpDto } from './dto/verify.dto';
 import { RegisterDto } from './dto/register.dto';
-import type { JwtPayload } from '@interfaces';
-import { CurrentUser } from '@decorators/current-user.decorator';
-import { JwtAuthGuard } from '@guards/jwt-auth/jwt-auth.guard';
+import type { JwtPayload } from '../../shared/interfaces';
+import { CurrentUser } from '../../shared/decorators/current-user.decorator';
+import { JwtAuthGuard } from '../../shared/guards/jwt-auth/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {

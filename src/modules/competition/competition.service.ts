@@ -1,10 +1,10 @@
 import { Injectable, MethodNotAllowedException } from '@nestjs/common';
-import type { August2026Competition } from '@interfaces';
-import { CompetitionsService } from '@services/competitions/competitions.service';
-import { Prisma } from '@infrastructure/prisma/generated/client';
-import { StorageService } from '@services/storage/storage.service';
-import { MailService } from '@infrastructure/mail/mail.service';
-import { UsersService } from '@services/users/users.service';
+import type { August2026Competition } from '../../shared/interfaces';
+import { CompetitionsService } from '../../shared/services/competitions/competitions.service';
+import { Prisma } from '../../infrastructure/prisma/generated/client';
+import { StorageService } from '../../shared/services/storage/storage.service';
+import { MailService } from '../../infrastructure/mail/mail.service';
+import { UsersService } from '../../shared/services/users/users.service';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()

@@ -5,8 +5,8 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
-import { PrismaService } from '@infrastructure/prisma/prisma.service';
-import { JwtPayload } from '@interfaces';
+import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
+import { JwtPayload } from '../../interfaces';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {

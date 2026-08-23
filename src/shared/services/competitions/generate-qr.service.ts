@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { join } from 'path';
 import QRCode from 'qrcode';
-import { StorageService } from '@services/storage/storage.service';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable()
 export class QrCodeService {

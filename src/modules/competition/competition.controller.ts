@@ -9,13 +9,13 @@ import {
   UploadedFile,
   Put,
 } from '@nestjs/common';
-import { CurrentUser } from '@decorators/current-user.decorator';
-import { JwtAuthGuard } from '@guards/jwt-auth/jwt-auth.guard';
-import type { JwtPayload } from '@interfaces';
+import { CurrentUser } from '../../shared/decorators/current-user.decorator';
+import { JwtAuthGuard } from '../../shared/guards/jwt-auth/jwt-auth.guard';
+import type { JwtPayload } from '../../shared/interfaces';
 import { CompetitionService } from './competition.service';
 import { August2026Dto } from './dto/august2026.dto';
-import { FilterAugust2026Dto } from '@dtos/filterAugust2026.dto';
-import { UploadInterceptor } from '@interceptors/upload.interceptor';
+import { FilterAugust2026Dto } from '../../shared/dtos/filterAugust2026.dto';
+import { UploadInterceptor } from '../../shared/interceptors/upload.interceptor';
 import { UpdateStatusDto } from './dto/updateStatus.dto';
 
 @Controller('competition')
