@@ -1,0 +1,11 @@
+{
+  "app": {
+    "name": "phoenix-fit",
+    "framework": "nestjs",
+    "httpPort": 3000,
+    "build": {
+      "command": "npm run build",
+      "outputDirectory": "dist"
+    }
+  }
+}
