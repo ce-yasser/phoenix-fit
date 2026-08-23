@@ -1,7 +1,13 @@
 import * as I from '@interfaces';
 import { BaseEmailTemplate } from './base-email.template';
+import { ConfigService } from '@nestjs/config';
 
 export function template(data: I.RegistrationConfirmedData): string {
+  const configService = new ConfigService();
+  const eventDate = configService.get<string>('EVENT_DATE') || '';
+  const eventTime = configService.get<string>('EVENT_TIME') || '';
+  const eventVenue = configService.get<string>('EVENT_VENUE') || '';
+
   const body = `
     Great news &mdash; your registration has been approved and confirmed for the
     <strong>Phoenix Fit Calisthenics Championship</strong>. See you on the bars.
@@ -20,15 +26,15 @@ export function template(data: I.RegistrationConfirmedData): string {
             </tr>
             <tr class="pf-stack">
               <td style="padding:6px 0; font-size:13px; color:#8a8a8a;">Date</td>
-              <td align="right" style="padding:6px 0; font-size:13px; font-weight:bold; color:#1f1f1f;">${data.eventDate}</td>
+              <td align="right" style="padding:6px 0; font-size:13px; font-weight:bold; color:#1f1f1f;">${eventDate}</td>
             </tr>
             <tr class="pf-stack">
               <td style="padding:6px 0; font-size:13px; color:#8a8a8a;">Time</td>
-              <td align="right" style="padding:6px 0; font-size:13px; font-weight:bold; color:#1f1f1f;">${data.eventTime}</td>
+              <td align="right" style="padding:6px 0; font-size:13px; font-weight:bold; color:#1f1f1f;">${eventTime}</td>
             </tr>
             <tr class="pf-stack">
               <td style="padding:6px 0; font-size:13px; color:#8a8a8a;">Venue</td>
-              <td align="right" style="padding:6px 0; font-size:13px; font-weight:bold; color:#1f1f1f;">${data.venue}</td>
+              <td align="right" style="padding:6px 0; font-size:13px; font-weight:bold; color:#1f1f1f;">${eventVenue}</td>
             </tr>
             <tr class="pf-stack">
               <td style="padding:6px 0; font-size:13px; color:#8a8a8a;">Reference</td>
@@ -65,7 +71,6 @@ export function template(data: I.RegistrationConfirmedData): string {
     status: 'Registration Confirmed',
     supportMessage: 'Questions before event day?',
     preheader: `You're confirmed for ${data.level} • ${data.category}. Your check-in QR code is inside.`,
-    
   });
 }
 

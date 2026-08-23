@@ -44,7 +44,6 @@ export function template(data: I.RegistrationReceivedData): string {
     status: 'Pending Review',
     supportMessage: 'Questions about your registration?',
     preheader: `We've received your payment for ${data.level} • ${data.category} — pending admin approval.`,
-    
   });
 }
 
