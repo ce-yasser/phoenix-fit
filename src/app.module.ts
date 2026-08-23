@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from '@modules/users/users.module';
 import { PrismaModule } from '@infrastructure/prisma/prisma.module';
 import { MailModule } from '@infrastructure/mail/mail.module';
 import { AuthModule } from '@modules/auth/auth.module';
@@ -17,14 +16,13 @@ import { GeneralModule } from '@modules/general/general.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    UsersModule,
     PrismaModule,
     MailModule,
     AuthModule,
     CompetitionModule,
     ProfileModule,
     AdminModule,
-    GeneralModule
+    GeneralModule,
   ],
   controllers: [AppController],
   providers: [AppService],
