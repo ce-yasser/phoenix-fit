@@ -48,7 +48,7 @@ export function template(data: I.RegistrationConfirmedData): string {
     <table role="presentation" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border:2px solid #121212; border-radius:12px; margin: 0 auto;">
       <tr>
         <td align="center" style="padding: 20px;">
-          <img src="${data.qrCodeUrl}" width="180" height="180" alt="Check-in QR code for ${data.registrationId}" style="display:block; width:180px; height:180px;" />
+          <img src="cid:${data.registrationId}" width="180" height="180" alt="Check-in QR code for ${data.registrationId}" style="display:block; width:180px; height:180px;" />
         </td>
       </tr>
     </table>

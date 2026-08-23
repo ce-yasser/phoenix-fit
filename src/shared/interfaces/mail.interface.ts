@@ -14,20 +14,8 @@ export interface RegistrationConfirmedData {
   name?: string | null;
   level: string;
   category: string;
-  eventDate: string;
-  eventTime: string;
-  venue: string;
   registrationId: string;
-  qrCodeUrl: string;
-  statusUrl: string;
-}
-
-export interface RegistrationReceivedData {
-  name?: string | null;
-  level: string;
-  category: string;
-  amount: string;
-  registrationId: string;
+  qrCodeImage: Buffer<ArrayBufferLike>;
   statusUrl: string;
 }
 
@@ -38,4 +26,13 @@ export interface RegistrationRejectedData {
   registrationId: string;
   rejectionReason: string;
   resubmitUrl: string;
+}
+
+export interface RegistrationReceivedData {
+  name?: string | null;
+  level: string;
+  category: string;
+  amount: string;
+  registrationId: string;
+  statusUrl: string;
 }

@@ -1,32 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Resend } from 'resend';
 import * as otpTemplate from './templates/otp.template';
 import * as confirmedTemplate from './templates/registration-confirmed.template';
 import * as receivedTemplate from './templates/registration-received.template';
 import * as rejectedTemplate from './templates/registration-rejected.template';
+import Mailgun from 'mailgun.js';
+import FormData from 'form-data';
 import * as I from '@interfaces';
 
 @Injectable()
 export class MailService {
-  private readonly resend: Resend;
+  private readonly client: ReturnType<Mailgun['client']>;
+  private readonly domain: string;
+  private readonly from: string;
 
   constructor(private readonly configService: ConfigService) {
-    const apiKey = this.configService.get<string>('RESEND_API_KEY');
+    const mailgun = new Mailgun(FormData);
 
-    if (!apiKey) {
-      throw new Error('RESEND_API_KEY is not set. Add it to your .env file.');
-    }
+    this.client = mailgun.client({
+      username: 'api',
+      key: this.configService.getOrThrow<string>('MAILGUN_API_KEY'),
+    });
 
-    this.resend = new Resend(apiKey);
+    this.domain = this.configService.getOrThrow<string>('MAILGUN_DOMAIN');
+
+    this.from = this.configService.getOrThrow<string>('MAILGUN_FROM');
   }
 
   async sendFromAdminToUser(email: string, context: I.MailContext) {
-    await this.resend.emails.send({
-      from: this.configService.get<string>('EMAIL_FROM') || '',
-      to: email,
+    await this.client.messages.create(this.domain, {
+      from: this.from,
+      to: [email],
       subject: this.getContextSubject(context),
       html: this.getContextTemplate(context),
+      attachment: this.getAttachments(context),
     });
   }
 
@@ -57,6 +64,20 @@ export class MailService {
         return rejectedTemplate.subject(context.data);
       default:
         throw new Error('Unknown mail context type');
+    }
+  }
+
+  private getAttachments(context: I.MailContext) {
+    switch (context.type) {
+      case 'registration-confirmed':
+        return [
+          {
+            filename: `${context.data.registrationId}.png`,
+            data: context.data.qrCodeImage,
+          },
+        ];
+      default:
+        return [];
     }
   }
 }
