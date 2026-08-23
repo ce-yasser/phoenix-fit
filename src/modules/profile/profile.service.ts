@@ -15,7 +15,6 @@ export class ProfileService {
     delete user.otp;
     delete user.otpCreatedAt;
     delete user.otpExpiresAt;
-    delete user.emailVerified;
     return { data: { ...user } };
   }
 
@@ -29,7 +28,6 @@ export class ProfileService {
     delete user.otp;
     delete user.otpCreatedAt;
     delete user.otpExpiresAt;
-    delete user.emailVerified;
     return { data: { ...user } };
   }
 }

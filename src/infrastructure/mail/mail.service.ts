@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
 import * as otpTemplate from './templates/otp.template';
+import * as confirmedTemplate from './templates/registration-confirmed.template';
+import * as receivedTemplate from './templates/registration-received.template';
+import * as rejectedTemplate from './templates/registration-rejected.template';
 import * as I from '@interfaces';
 
 @Injectable()
@@ -31,6 +34,12 @@ export class MailService {
     switch (context.type) {
       case 'otp':
         return otpTemplate.template(context.data);
+      case 'registration-confirmed':
+        return confirmedTemplate.template(context.data);
+      case 'registration-received':
+        return receivedTemplate.template(context.data);
+      case 'registration-rejected':
+        return rejectedTemplate.template(context.data);
       default:
         throw new Error('Unknown mail context type');
     }
@@ -38,10 +47,14 @@ export class MailService {
 
   private getContextSubject(context: I.MailContext): string {
     switch (context.type) {
-      case 'register':
-        return 'Welcome to Phoenix Fit - Verify Your Email';
       case 'otp':
         return otpTemplate.subject(context.data);
+      case 'registration-confirmed':
+        return confirmedTemplate.subject(context.data);
+      case 'registration-received':
+        return receivedTemplate.subject(context.data);
+      case 'registration-rejected':
+        return rejectedTemplate.subject(context.data);
       default:
         throw new Error('Unknown mail context type');
     }

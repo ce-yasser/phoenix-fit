@@ -5,16 +5,25 @@ import type {
   Competition as PrismaCompetition,
 } from '@infrastructure/prisma/generated/client';
 import * as I from '@interfaces';
+import { programs } from '/modules/general/programs';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CompetitionsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly configService: ConfigService,
+  ) {}
 
   submitCompetition(
     userId: number,
     slug: string,
     data: I.CompetitionData,
   ): Promise<PrismaCompetition> {
+    const programGender =
+      data.age < (this.configService.get<number>('AdultAge') || 18)
+        ? 'kids'
+        : data.gender;
     return this.prisma.competition.create({
       data: {
         userId,
@@ -27,8 +36,23 @@ export class CompetitionsService {
         ],
         status: 'CREATED',
         data: data as Record<string, any>,
+        fee: this.getCompetitionFee(programGender, data.level),
       },
     });
+  }
+
+  private getCompetitionFee(gender: string, level: string): number {
+    if (!(gender in programs)) {
+      return 0;
+    }
+    if (gender === 'kids') {
+      return programs.kids.fee;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return (
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      programs[gender]?.find((p) => p?.title?.toLowerCase() === level)?.fee || 0
+    );
   }
 
   async findAll(filters: I.FilterAugust2026Competition, includeUser = false) {

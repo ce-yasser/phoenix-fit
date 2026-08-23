@@ -3,12 +3,18 @@ import type { August2026Competition } from '@interfaces';
 import { CompetitionsService } from '@services/competitions/competitions.service';
 import { Prisma } from '@infrastructure/prisma/generated/client';
 import { StorageService } from '@services/storage/storage.service';
+import { MailService } from '@infrastructure/mail/mail.service';
+import { UsersService } from '@services/users/users.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CompetitionService {
   constructor(
     private readonly _competitionsService: CompetitionsService,
     private readonly storageService: StorageService,
+    private readonly mailService: MailService,
+    private readonly usersService: UsersService,
+    private readonly configService: ConfigService,
   ) {}
 
   async submitAugust2026(
@@ -53,7 +59,6 @@ export class CompetitionService {
       id,
       userId,
     );
-    console.log('file', competition);
     if (!file) {
       throw new MethodNotAllowedException('No file uploaded');
     }
@@ -85,6 +90,23 @@ export class CompetitionService {
           ...competition.history,
         ] as Prisma.InputJsonValue[],
       });
+
+    const user = await this.usersService.getUserById(userId);
+    if (user?.email) {
+      const competitionDto =
+        updatedCompetition.data as unknown as August2026Competition;
+      await this.mailService.sendFromAdminToUser(user.email, {
+        type: 'registration-received',
+        data: {
+          name: user.name ?? null,
+          level: competitionDto.level,
+          category: competitionDto.category,
+          amount: String(competition.fee ?? 0),
+          registrationId: competition.id,
+          statusUrl: `${this.configService.get('BASE_URL')}/competition/${competition.id}`,
+        },
+      });
+    }
 
     return { data: updatedCompetition };
   }

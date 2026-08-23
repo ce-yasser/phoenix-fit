@@ -4,6 +4,7 @@ model Competition {
   userId        Int
   user          User      @relation(fields: [userId], references: [id])
   data          Json
+  fee           Int
   status        RegistrationStatus    @default(PENDING)
   history       Json[]    @default([])
   payment       String[]  @default([])

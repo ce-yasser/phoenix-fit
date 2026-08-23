@@ -28,16 +28,19 @@ export type AggregateCompetition = {
 
 export type CompetitionAvgAggregateOutputType = {
   userId: number | null
+  fee: number | null
 }
 
 export type CompetitionSumAggregateOutputType = {
   userId: number | null
+  fee: number | null
 }
 
 export type CompetitionMinAggregateOutputType = {
   id: string | null
   competition: string | null
   userId: number | null
+  fee: number | null
   status: $Enums.RegistrationStatus | null
   submittedAt: Date | null
   updatedAt: Date | null
@@ -47,6 +50,7 @@ export type CompetitionMaxAggregateOutputType = {
   id: string | null
   competition: string | null
   userId: number | null
+  fee: number | null
   status: $Enums.RegistrationStatus | null
   submittedAt: Date | null
   updatedAt: Date | null
@@ -57,6 +61,7 @@ export type CompetitionCountAggregateOutputType = {
   competition: number
   userId: number
   data: number
+  fee: number
   status: number
   history: number
   payment: number
@@ -68,16 +73,19 @@ export type CompetitionCountAggregateOutputType = {
 
 export type CompetitionAvgAggregateInputType = {
   userId?: true
+  fee?: true
 }
 
 export type CompetitionSumAggregateInputType = {
   userId?: true
+  fee?: true
 }
 
 export type CompetitionMinAggregateInputType = {
   id?: true
   competition?: true
   userId?: true
+  fee?: true
   status?: true
   submittedAt?: true
   updatedAt?: true
@@ -87,6 +95,7 @@ export type CompetitionMaxAggregateInputType = {
   id?: true
   competition?: true
   userId?: true
+  fee?: true
   status?: true
   submittedAt?: true
   updatedAt?: true
@@ -97,6 +106,7 @@ export type CompetitionCountAggregateInputType = {
   competition?: true
   userId?: true
   data?: true
+  fee?: true
   status?: true
   history?: true
   payment?: true
@@ -196,6 +206,7 @@ export type CompetitionGroupByOutputType = {
   competition: string
   userId: number
   data: runtime.JsonValue
+  fee: number
   status: $Enums.RegistrationStatus
   history: runtime.JsonValue[]
   payment: string[]
@@ -231,6 +242,7 @@ export type CompetitionWhereInput = {
   competition?: Prisma.StringFilter<"Competition"> | string
   userId?: Prisma.IntFilter<"Competition"> | number
   data?: Prisma.JsonFilter<"Competition">
+  fee?: Prisma.IntFilter<"Competition"> | number
   status?: Prisma.EnumRegistrationStatusFilter<"Competition"> | $Enums.RegistrationStatus
   history?: Prisma.JsonNullableListFilter<"Competition">
   payment?: Prisma.StringNullableListFilter<"Competition">
@@ -244,6 +256,7 @@ export type CompetitionOrderByWithRelationInput = {
   competition?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   data?: Prisma.SortOrder
+  fee?: Prisma.SortOrder
   status?: Prisma.SortOrder
   history?: Prisma.SortOrder
   payment?: Prisma.SortOrder
@@ -260,6 +273,7 @@ export type CompetitionWhereUniqueInput = Prisma.AtLeast<{
   competition?: Prisma.StringFilter<"Competition"> | string
   userId?: Prisma.IntFilter<"Competition"> | number
   data?: Prisma.JsonFilter<"Competition">
+  fee?: Prisma.IntFilter<"Competition"> | number
   status?: Prisma.EnumRegistrationStatusFilter<"Competition"> | $Enums.RegistrationStatus
   history?: Prisma.JsonNullableListFilter<"Competition">
   payment?: Prisma.StringNullableListFilter<"Competition">
@@ -273,6 +287,7 @@ export type CompetitionOrderByWithAggregationInput = {
   competition?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   data?: Prisma.SortOrder
+  fee?: Prisma.SortOrder
   status?: Prisma.SortOrder
   history?: Prisma.SortOrder
   payment?: Prisma.SortOrder
@@ -293,6 +308,7 @@ export type CompetitionScalarWhereWithAggregatesInput = {
   competition?: Prisma.StringWithAggregatesFilter<"Competition"> | string
   userId?: Prisma.IntWithAggregatesFilter<"Competition"> | number
   data?: Prisma.JsonWithAggregatesFilter<"Competition">
+  fee?: Prisma.IntWithAggregatesFilter<"Competition"> | number
   status?: Prisma.EnumRegistrationStatusWithAggregatesFilter<"Competition"> | $Enums.RegistrationStatus
   history?: Prisma.JsonNullableListFilter<"Competition">
   payment?: Prisma.StringNullableListFilter<"Competition">
@@ -304,6 +320,7 @@ export type CompetitionCreateInput = {
   id?: string
   competition: string
   data: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee: number
   status?: $Enums.RegistrationStatus
   history?: Prisma.CompetitionCreatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionCreatepaymentInput | string[]
@@ -317,6 +334,7 @@ export type CompetitionUncheckedCreateInput = {
   competition: string
   userId: number
   data: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee: number
   status?: $Enums.RegistrationStatus
   history?: Prisma.CompetitionCreatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionCreatepaymentInput | string[]
@@ -328,6 +346,7 @@ export type CompetitionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   competition?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
   history?: Prisma.CompetitionUpdatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionUpdatepaymentInput | string[]
@@ -341,6 +360,7 @@ export type CompetitionUncheckedUpdateInput = {
   competition?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
   history?: Prisma.CompetitionUpdatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionUpdatepaymentInput | string[]
@@ -353,6 +373,7 @@ export type CompetitionCreateManyInput = {
   competition: string
   userId: number
   data: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee: number
   status?: $Enums.RegistrationStatus
   history?: Prisma.CompetitionCreatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionCreatepaymentInput | string[]
@@ -364,6 +385,7 @@ export type CompetitionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   competition?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
   history?: Prisma.CompetitionUpdatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionUpdatepaymentInput | string[]
@@ -376,6 +398,7 @@ export type CompetitionUncheckedUpdateManyInput = {
   competition?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
   history?: Prisma.CompetitionUpdatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionUpdatepaymentInput | string[]
@@ -411,6 +434,7 @@ export type CompetitionCountOrderByAggregateInput = {
   competition?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   data?: Prisma.SortOrder
+  fee?: Prisma.SortOrder
   status?: Prisma.SortOrder
   history?: Prisma.SortOrder
   payment?: Prisma.SortOrder
@@ -420,12 +444,14 @@ export type CompetitionCountOrderByAggregateInput = {
 
 export type CompetitionAvgOrderByAggregateInput = {
   userId?: Prisma.SortOrder
+  fee?: Prisma.SortOrder
 }
 
 export type CompetitionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   competition?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  fee?: Prisma.SortOrder
   status?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -435,6 +461,7 @@ export type CompetitionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   competition?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  fee?: Prisma.SortOrder
   status?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -442,6 +469,7 @@ export type CompetitionMinOrderByAggregateInput = {
 
 export type CompetitionSumOrderByAggregateInput = {
   userId?: Prisma.SortOrder
+  fee?: Prisma.SortOrder
 }
 
 export type CompetitionListRelationFilter = {
@@ -466,6 +494,14 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type EnumRegistrationStatusFieldUpdateOperationsInput = {
   set?: $Enums.RegistrationStatus
 }
@@ -482,14 +518,6 @@ export type CompetitionUpdatepaymentInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type CompetitionCreateNestedManyWithoutUserInput = {
@@ -538,6 +566,7 @@ export type CompetitionCreateWithoutUserInput = {
   id?: string
   competition: string
   data: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee: number
   status?: $Enums.RegistrationStatus
   history?: Prisma.CompetitionCreatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionCreatepaymentInput | string[]
@@ -549,6 +578,7 @@ export type CompetitionUncheckedCreateWithoutUserInput = {
   id?: string
   competition: string
   data: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee: number
   status?: $Enums.RegistrationStatus
   history?: Prisma.CompetitionCreatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionCreatepaymentInput | string[]
@@ -590,6 +620,7 @@ export type CompetitionScalarWhereInput = {
   competition?: Prisma.StringFilter<"Competition"> | string
   userId?: Prisma.IntFilter<"Competition"> | number
   data?: Prisma.JsonFilter<"Competition">
+  fee?: Prisma.IntFilter<"Competition"> | number
   status?: Prisma.EnumRegistrationStatusFilter<"Competition"> | $Enums.RegistrationStatus
   history?: Prisma.JsonNullableListFilter<"Competition">
   payment?: Prisma.StringNullableListFilter<"Competition">
@@ -601,6 +632,7 @@ export type CompetitionCreateManyUserInput = {
   id?: string
   competition: string
   data: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee: number
   status?: $Enums.RegistrationStatus
   history?: Prisma.CompetitionCreatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionCreatepaymentInput | string[]
@@ -612,6 +644,7 @@ export type CompetitionUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   competition?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
   history?: Prisma.CompetitionUpdatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionUpdatepaymentInput | string[]
@@ -623,6 +656,7 @@ export type CompetitionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   competition?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
   history?: Prisma.CompetitionUpdatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionUpdatepaymentInput | string[]
@@ -634,6 +668,7 @@ export type CompetitionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   competition?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fee?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
   history?: Prisma.CompetitionUpdatehistoryInput | runtime.InputJsonValue[]
   payment?: Prisma.CompetitionUpdatepaymentInput | string[]
@@ -648,6 +683,7 @@ export type CompetitionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   competition?: boolean
   userId?: boolean
   data?: boolean
+  fee?: boolean
   status?: boolean
   history?: boolean
   payment?: boolean
@@ -661,6 +697,7 @@ export type CompetitionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   competition?: boolean
   userId?: boolean
   data?: boolean
+  fee?: boolean
   status?: boolean
   history?: boolean
   payment?: boolean
@@ -674,6 +711,7 @@ export type CompetitionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   competition?: boolean
   userId?: boolean
   data?: boolean
+  fee?: boolean
   status?: boolean
   history?: boolean
   payment?: boolean
@@ -687,6 +725,7 @@ export type CompetitionSelectScalar = {
   competition?: boolean
   userId?: boolean
   data?: boolean
+  fee?: boolean
   status?: boolean
   history?: boolean
   payment?: boolean
@@ -694,7 +733,7 @@ export type CompetitionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CompetitionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "competition" | "userId" | "data" | "status" | "history" | "payment" | "submittedAt" | "updatedAt", ExtArgs["result"]["competition"]>
+export type CompetitionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "competition" | "userId" | "data" | "fee" | "status" | "history" | "payment" | "submittedAt" | "updatedAt", ExtArgs["result"]["competition"]>
 export type CompetitionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -715,6 +754,7 @@ export type $CompetitionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     competition: string
     userId: number
     data: runtime.JsonValue
+    fee: number
     status: $Enums.RegistrationStatus
     history: runtime.JsonValue[]
     payment: string[]
@@ -1148,6 +1188,7 @@ export interface CompetitionFieldRefs {
   readonly competition: Prisma.FieldRef<"Competition", 'String'>
   readonly userId: Prisma.FieldRef<"Competition", 'Int'>
   readonly data: Prisma.FieldRef<"Competition", 'Json'>
+  readonly fee: Prisma.FieldRef<"Competition", 'Int'>
   readonly status: Prisma.FieldRef<"Competition", 'RegistrationStatus'>
   readonly history: Prisma.FieldRef<"Competition", 'Json[]'>
   readonly payment: Prisma.FieldRef<"Competition", 'String[]'>

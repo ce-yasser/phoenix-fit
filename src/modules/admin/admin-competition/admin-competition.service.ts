@@ -1,7 +1,10 @@
 import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { CompetitionsService } from '@services/competitions/competitions.service';
 import * as I from '@interfaces';
-import { Prisma, RegistrationStatus } from '/infrastructure/prisma/generated/client';
+import {
+  Prisma,
+  RegistrationStatus,
+} from '/infrastructure/prisma/generated/client';
 
 @Injectable()
 export class AdminCompetitionService {
@@ -67,6 +70,25 @@ export class AdminCompetitionService {
           ...competition.history,
         ] as Prisma.InputJsonValue[],
       });
+
+    if (updatedCompetition.status === 'CONFIRMED') {
+      const user = await this.usersService.getUserById(userId);
+      if (user?.email) {
+        const competitionDto =
+          updatedCompetition.data as unknown as August2026Competition;
+        await this.mailService.sendFromAdminToUser(user.email, {
+          type: 'registration-received',
+          data: {
+            name: user.name ?? null,
+            level: competitionDto.level,
+            category: competitionDto.category,
+            amount: String(competition.fee ?? 0),
+            registrationId: competition.id,
+            statusUrl: `${this.configService.get('BASE_URL')}/competition/${competition.id}`,
+          },
+        });
+      }
+    }
 
     return { data: updatedCompetition };
   }
