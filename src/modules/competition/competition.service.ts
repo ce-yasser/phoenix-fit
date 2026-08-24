@@ -1,4 +1,6 @@
 import { Injectable, MethodNotAllowedException } from '@nestjs/common';
+import { randomUUID } from 'crypto';
+import { extname } from 'path';
 import type { August2026Competition } from '../../shared/interfaces';
 import { CompetitionsService } from '../../shared/services/competitions/competitions.service';
 import { Prisma } from '../../infrastructure/prisma/generated/client';
@@ -62,20 +64,28 @@ export class CompetitionService {
     if (!file) {
       throw new MethodNotAllowedException('No file uploaded');
     }
-    const fileRelativePath = 'payments/' + file.filename;
+
     if (!competition) {
-      this.storageService.delete(fileRelativePath);
       throw new MethodNotAllowedException(
         'Registration not found or access denied',
       );
     }
 
     if (!['CREATED', 'REJECTED'].includes(competition.status)) {
-      this.storageService.delete(fileRelativePath);
       throw new MethodNotAllowedException(
         'Payment cannot be uploaded for this registration at the moment, please contact us for further assistance.',
       );
     }
+
+    const extension = extname(file.originalname || 'file');
+    const fileName = `${randomUUID()}${extension}`;
+    const fileRelativePath = `payments/${fileName}`;
+
+    if (!file.buffer || file.buffer.length === 0) {
+      throw new MethodNotAllowedException('Uploaded file content is empty');
+    }
+
+    await this.storageService.write(fileRelativePath, file.buffer);
 
     const updatedCompetition =
       await this._competitionsService.updateCompetitionById(id, {
