@@ -6,34 +6,28 @@ import * as receivedTemplate from './templates/registration-received.template';
 import * as rejectedTemplate from './templates/registration-rejected.template';
 import Mailgun from 'mailgun.js';
 import FormData from 'form-data';
+import { Resend } from 'resend';
 import * as I from '../../shared/interfaces';
-
 @Injectable()
 export class MailService {
-  private readonly client: ReturnType<Mailgun['client']>;
-  private readonly domain: string;
-  private readonly from: string;
+  private readonly resend: Resend;
 
   constructor(private readonly configService: ConfigService) {
-    const mailgun = new Mailgun(FormData);
+    const apiKey = this.configService.get<string>('RESEND_API_KEY');
 
-    this.client = mailgun.client({
-      username: 'api',
-      key: this.configService.getOrThrow<string>('MAILGUN_API_KEY'),
-    });
-
-    this.domain = this.configService.getOrThrow<string>('MAILGUN_DOMAIN');
-
-    this.from = this.configService.getOrThrow<string>('MAILGUN_FROM');
+    if (!apiKey) {
+      throw new Error('RESEND_API_KEY is not set. Add it to your .env file.');
+    }
+    this.resend = new Resend(apiKey);
   }
 
   async sendFromAdminToUser(email: string, context: I.MailContext) {
-    await this.client.messages.create(this.domain, {
-      from: this.from,
-      to: [email],
+    await this.resend.emails.send({
+      from: this.configService.get<string>('EMAIL_FROM') || '',
+      to: email,
       subject: this.getContextSubject(context),
       html: this.getContextTemplate(context),
-      attachment: this.getAttachments(context),
+      attachments: this.getAttachments(context),
     });
   }
 
@@ -73,7 +67,8 @@ export class MailService {
         return [
           {
             filename: `${context.data.registrationId}.png`,
-            data: context.data.qrCodeImage,
+            content: context.data.qrCodeImage,
+            contentType: 'image/png',
           },
         ];
       default:
