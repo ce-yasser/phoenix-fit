@@ -7,11 +7,28 @@ export function template(data: I.RegistrationConfirmedData): string {
   const eventDate = configService.get<string>('EVENT_DATE') || '';
   const eventTime = configService.get<string>('EVENT_TIME') || '';
   const eventVenue = configService.get<string>('EVENT_VENUE') || '';
+  const publicBaseUrl = (
+    configService.get<string>('R2_PUBLIC_URL') || ''
+  ).replace(/\/?$/, '/');
+  const qrCodeUrl = `${publicBaseUrl}qrcodes/${data.registrationId}.png`;
 
   const body = `
     Great news &mdash; your registration has been approved and confirmed for the
     <strong>Phoenix Fit Calisthenics Championship</strong>. See you on the bars.
-    <br /><br />
+    <br />
+    <table role="presentation" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border:2px solid #121212; border-radius:12px; margin: 0 auto;">
+      <tr>
+        <td align="center" style="padding: 20px;">
+          <img src="${qrCodeUrl}" width="180" height="180" alt="Check-in QR code for ${data.registrationId}" style="display:block; width:180px; height:180px;" />
+        </td>
+      </tr>
+    </table>
+    <br />
+    <p style="margin:0; font-size:13px; line-height:1.6; color:#8a8a8a;">
+      Show this QR code at check-in on event day. Save this email or take a screenshot &mdash; you&rsquo;ll need it at the gate.
+    </p>
+    <br />
+    <br />
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f9f9f9; border:1px solid #ececec; border-radius:10px;">
       <tr>
         <td style="padding: 20px 24px;">
@@ -45,17 +62,6 @@ export function template(data: I.RegistrationConfirmedData): string {
       </tr>
     </table>
     <br />
-    <table role="presentation" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border:2px solid #121212; border-radius:12px; margin: 0 auto;">
-      <tr>
-        <td align="center" style="padding: 20px;">
-          <img src="cid:${data.registrationId}" width="180" height="180" alt="Check-in QR code for ${data.registrationId}" style="display:block; width:180px; height:180px;" />
-        </td>
-      </tr>
-    </table>
-    <br />
-    <p style="margin:0; font-size:13px; line-height:1.6; color:#8a8a8a;">
-      Show this QR code at check-in on event day. Save this email or take a screenshot &mdash; you&rsquo;ll need it at the gate.
-    </p>
     <br />
     <div style="text-align:center;">
       <a href="${data.statusUrl}" style="background-color:#f2790a; color:#ffffff; display:inline-block; font-family: Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; padding:14px 32px; border-radius:8px;">
