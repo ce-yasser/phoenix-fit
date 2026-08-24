@@ -21,7 +21,7 @@ export class August2026Dto {
   @IsIn(['strength', 'endurance', 'flexibility'])
   category!: string;
 
-  @IsIn(['beginner', 'intermediate', 'advanced'])
+  @IsIn(['intermediate', 'advanced', 'elite'])
   level!: string;
 
   @Transform(({ value }) => parseInt(value, 10))
