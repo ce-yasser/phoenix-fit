@@ -95,7 +95,7 @@ export class AdminCompetitionService {
             registrationId: competition.id,
             statusUrl: `${this.configService.get('BASE_URL')}/competition/${competition.id}`,
             qrCodeImage: await this.qrCodeService.generateQrCode(
-              `${this.configService.get('BASE_URL')}/competition/${competition.id}`,
+              `${this.configService.get('BASE_URL')}/admin/competition/${competition.id}`,
               `${competition.id}.png`,
             ),
           },
