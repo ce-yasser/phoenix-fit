@@ -87,6 +87,8 @@ export class CompetitionService {
 
     await this.storageService.write(fileRelativePath, file.buffer);
 
+    const user = await this.usersService.getUserById(userId);
+
     const updatedCompetition =
       await this._competitionsService.updateCompetitionById(id, {
         payment: [fileRelativePath, ...competition.payment],
@@ -95,13 +97,12 @@ export class CompetitionService {
           {
             time: new Date().toISOString(),
             value: 'Payment uploaded successfully',
-            userId: userId,
+            author: `#${userId} ${user?.name ?? ''}`,
           },
           ...competition.history,
         ] as Prisma.InputJsonValue[],
       });
 
-    const user = await this.usersService.getUserById(userId);
     if (user?.email) {
       const competitionDto =
         updatedCompetition.data as unknown as August2026Competition;
@@ -138,6 +139,8 @@ export class CompetitionService {
       );
     }
 
+    const user = await this.usersService.getUserById(userId);
+
     const updatedCompetition =
       await this._competitionsService.updateCompetitionById(id, {
         status: status,
@@ -145,7 +148,7 @@ export class CompetitionService {
           {
             time: new Date().toISOString(),
             value: `Status updated to ${status}`,
-            userId: userId,
+            author: `#${userId} ${user?.name ?? ''}`,
           },
           ...competition.history,
         ] as Prisma.InputJsonValue[],

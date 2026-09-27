@@ -20,10 +20,16 @@ export class CompetitionsService {
     slug: string,
     data: I.CompetitionData,
   ): Promise<PrismaCompetition> {
+    const programGenderEnum: Record<string, string> = {
+      male: 'men',
+      female: 'women',
+    };
     const programGender =
       data.age < (this.configService.get<number>('AdultAge') || 18)
         ? 'kids'
-        : data.gender;
+        : programGenderEnum[data.gender];
+    console.log(programGender, data.level);
+    console.log(this.getCompetitionFee(programGender, data.level));
     return this.prisma.competition.create({
       data: {
         userId,

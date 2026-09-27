@@ -68,6 +68,7 @@ export class AdminCompetitionService {
       );
     }
 
+    const user = await this.usersService.getUserById(userId);
     const updatedCompetition =
       await this._competitionsService.updateCompetitionById(id, {
         status: status,
@@ -75,14 +76,13 @@ export class AdminCompetitionService {
           {
             time: new Date().toISOString(),
             value: `Status updated to ${status}`,
-            userId: userId,
+            author: `#${userId} ${user?.name ?? ''}`,
           },
           ...competition.history,
         ] as Prisma.InputJsonValue[],
       });
 
     if (updatedCompetition.status === 'CONFIRMED') {
-      const user = await this.usersService.getUserById(userId);
       if (user?.email) {
         const competitionDto =
           updatedCompetition.data as unknown as I.August2026Competition;
