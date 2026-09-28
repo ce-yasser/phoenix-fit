@@ -4,15 +4,7 @@ import type {
   Prisma,
   User as PrismaUser,
 } from '../../../infrastructure/prisma/generated/client';
-import type { Role } from '../../../infrastructure/prisma/generated/enums';
-
-export interface UserListFilters {
-  email?: string;
-  role?: Role;
-  name?: string;
-  page?: number;
-  limit?: number;
-}
+import type { UserListFilters } from '../../interfaces/users.interface';
 
 @Injectable()
 export class UsersService {
@@ -66,6 +58,7 @@ export class UsersService {
 
   async findAll(filters: UserListFilters = {}) {
     const { email, role, name, page = 1, limit = 10 } = filters;
+    console.log('filters', filters);
 
     const where: Prisma.UserWhereInput = {
       ...(email && {

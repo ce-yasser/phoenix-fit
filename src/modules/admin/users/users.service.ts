@@ -1,15 +1,15 @@
 import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { Role } from '../../../infrastructure/prisma/generated/enums';
-import {
-  UsersService as SharedUsersService,
-  type UserListFilters,
-} from '../../../shared/services/users/users.service';
+import { UsersService as SharedUsersService } from '../../../shared/services/users/users.service';
+import type { UserListFilters } from '../../../shared/interfaces/users.interface';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly usersService: SharedUsersService) {}
 
-  async getAllUsers(filters: UserListFilters = {}) {
+  async getAllUsers(
+    filters: UserListFilters = {},
+  ): Promise<ReturnType<SharedUsersService['findAll']>> {
     return this.usersService.findAll(filters);
   }
 

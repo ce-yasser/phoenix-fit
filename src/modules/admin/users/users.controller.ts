@@ -4,7 +4,7 @@ import { BaseAdminController } from '../base-admin.controller';
 import { CurrentUser } from '../../../shared/decorators/current-user.decorator';
 import { UsersService } from './users.service';
 import type { JwtPayload } from '../../../shared/interfaces';
-import type { UserListFilters } from '../../../shared/services/users/users.service';
+import { FilterUsersDto } from './dto/filter-users.dto';
 
 @Controller('users')
 export class UsersController extends BaseAdminController {
@@ -15,7 +15,7 @@ export class UsersController extends BaseAdminController {
   @Get()
   getAllUsers(
     @Query()
-    filters: UserListFilters,
+    filters: FilterUsersDto,
   ) {
     return this.usersService.getAllUsers(filters);
   }
