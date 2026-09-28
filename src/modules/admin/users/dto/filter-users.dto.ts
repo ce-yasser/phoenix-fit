@@ -4,18 +4,29 @@ import { Role } from '../../../../infrastructure/prisma/generated/enums';
 
 export class FilterUsersDto {
   @IsOptional()
-  @Transform(({ value }) => value?.trim())
+  @Type(() => Number)
+  @IsInt()
+  id?: number;
+
+  @IsOptional()
+  @Transform(({ value }: { value?: unknown }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
   @IsString()
   @Length(1, 255)
   email?: string;
 
   @IsOptional()
-  @Transform(({ value }) => value?.trim())
+  @Transform(({ value }: { value?: unknown }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
   @IsEnum(Role)
   role?: Role;
 
   @IsOptional()
-  @Transform(({ value }) => value?.trim())
+  @Transform(({ value }: { value?: unknown }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
   @IsString()
   @Length(1, 255)
   name?: string;

@@ -57,10 +57,10 @@ export class UsersService {
   }
 
   async findAll(filters: UserListFilters = {}) {
-    const { email, role, name, page = 1, limit = 10 } = filters;
-    console.log('filters', filters);
+    const { id, email, role, name, page = 1, limit = 10 } = filters;
 
     const where: Prisma.UserWhereInput = {
+      ...(id !== undefined && { id }),
       ...(email && {
         email: { contains: email, mode: 'insensitive' },
       }),
