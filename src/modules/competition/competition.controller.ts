@@ -42,7 +42,7 @@ export class CompetitionController {
 
   @Get(':id')
   getById(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
-    return this.competitionService.getCompetitionById(id, user.sub);
+    return this.competitionService.getCompetitionById(id, user.sub, user.role);
   }
 
   @Post(':id')

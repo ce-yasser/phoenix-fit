@@ -43,10 +43,12 @@ export class CompetitionService {
     });
   }
 
-  async getCompetitionById(id: string, userId: number) {
+  async getCompetitionById(id: string, userId: number, role = 'USER') {
+    const isAdmin = ['ADMIN', 'SYSADMIN'].includes(role);
     const competition = await this._competitionsService.getCompetitionById(
       id,
       userId,
+      isAdmin,
     );
     if (!competition) {
       throw new MethodNotAllowedException(
