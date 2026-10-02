@@ -5,6 +5,7 @@ import { VerifyOtpDto } from './dto/verify.dto';
 import { UsersService } from '../../shared/services/users/users.service';
 import type { User as PrismaUser } from '../../infrastructure/prisma/generated/client.js';
 import { MailService } from '../../infrastructure/mail/mail.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
     private readonly mailService: MailService,
+    private readonly configService: ConfigService,
   ) {}
 
   async login(dto: LoginDto) {
@@ -68,13 +70,24 @@ export class AuthService {
       },
     });
 
+    const isDev = this.configService.get<boolean>('IS_DEV');
+
+    const response: {
+      message: string;
+      expiresAfter: number;
+      isNewUser: boolean;
+      otp?: string;
+    } = {
+      message: message,
+      expiresAfter: this.getDuplicateOtpWindow(otpCreatedAt),
+      isNewUser: !existingUser,
+    };
+
+    if (isDev) {
+      response.otp = otp;
+    }
     return {
-      data: {
-        message: message,
-        otp,
-        expiresAfter: this.getDuplicateOtpWindow(otpCreatedAt),
-        isNewUser: !existingUser,
-      },
+      data: response,
     };
   }
 
