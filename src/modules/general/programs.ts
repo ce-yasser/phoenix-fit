@@ -39,20 +39,8 @@ export const programs = {
   ],
   women: [
     {
-      title: 'Intermediate',
-      fee: 600,
-      qualifier: [
-        '6 assisted/strict pull-ups + 14 push-ups + 20 squats',
-        '3 rounds: 10 knee raises + 10 burpees',
-      ],
-      final: [
-        '3-minute AMRAP: 5 pull-ups, 7 dips, 9 jump squats',
-        'Hold test: max dead hang + max hollow hold',
-      ],
-    },
-    {
       title: 'Advanced',
-      fee: 800,
+      fee: 600,
       qualifier: [
         '3 muscle-up progressions/strict reps + 16 box jump-overs',
         '4 rounds: 8 toes-to-bar + 10 explosive push-ups',
@@ -75,13 +63,4 @@ export const programs = {
       ],
     },
   ],
-  kids: {
-    fee: 600,
-    final: [
-      '10 jumping jacks',
-      '5 pull-ups',
-      '20 bodyweight squats',
-      '100m running challenge',
-    ],
-  },
 };
