@@ -83,13 +83,15 @@ export class AdminCompetitionService {
       });
 
     if (updatedCompetition.status === 'CONFIRMED') {
-      if (user?.email) {
+      const competitorId = updatedCompetition.userId;
+      const competitor = await this.usersService.getUserById(competitorId);
+      if (competitor?.email) {
         const competitionDto =
           updatedCompetition.data as unknown as I.August2026Competition;
-        await this.mailService.sendFromAdminToUser(user.email, {
+        await this.mailService.sendFromAdminToUser(competitor.email, {
           type: 'registration-confirmed',
           data: {
-            name: user.name ?? null,
+            name: competitor.name,
             level: competitionDto.level,
             category: competitionDto.category,
             registrationId: competition.id,
