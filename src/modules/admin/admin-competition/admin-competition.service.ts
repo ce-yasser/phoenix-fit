@@ -93,7 +93,7 @@ export class AdminCompetitionService {
           data: {
             name: competitor.name,
             level: competitionDto.level,
-            category: competitionDto.category,
+            gender: competitionDto.gender,
             registrationId: competition.id,
             statusUrl: `${this.configService.get('BASE_URL')}/competition/${competition.id}`,
             qrCodeImage: await this.qrCodeService.generateQrCode(

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import type {
   Prisma,
@@ -24,12 +24,16 @@ export class CompetitionsService {
       male: 'men',
       female: 'women',
     };
-    const programGender =
-      data.age < (this.configService.get<number>('AdultAge') || 18)
-        ? 'kids'
-        : programGenderEnum[data.gender];
-    console.log(programGender, data.level);
-    console.log(this.getCompetitionFee(programGender, data.level));
+    const programGender = programGenderEnum[data.gender];
+    // if gender is women, and level is intermediate, return 400 error
+    if (
+      programGender === 'women' &&
+      ['intermediate', 'freestyle'].includes(data.level)
+    ) {
+      throw new MethodNotAllowedException(
+        'Women cannot register for the intermediate level',
+      );
+    }
     return this.prisma.competition.create({
       data: {
         userId,
@@ -51,9 +55,6 @@ export class CompetitionsService {
     if (!(gender in programs)) {
       return 0;
     }
-    if (gender === 'kids') {
-      return programs.kids.fee;
-    }
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return (
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
@@ -63,13 +64,12 @@ export class CompetitionsService {
 
   async findAll(filters: I.FilterAugust2026Competition, includeUser = false) {
     const {
+      id,
       slug,
       email,
       status,
       userId,
-      age,
       level,
-      category,
       name,
       phone,
       gender,
@@ -78,6 +78,7 @@ export class CompetitionsService {
     } = filters;
 
     const where: Prisma.CompetitionWhereInput = {
+      ...(id && { id }),
       ...(email && {
         user: {
           email: { contains: email, mode: 'insensitive' },
@@ -89,13 +90,7 @@ export class CompetitionsService {
 
       // Dynamic JSON field filters — each becomes an entry in `AND`
       AND: [
-        ...(age !== undefined
-          ? [{ data: { path: ['age'], equals: age } }]
-          : []),
         ...(level ? [{ data: { path: ['level'], equals: level } }] : []),
-        ...(category
-          ? [{ data: { path: ['category'], equals: category } }]
-          : []),
         ...(name
           ? [
               {

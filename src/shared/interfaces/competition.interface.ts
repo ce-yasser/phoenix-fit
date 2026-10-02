@@ -3,19 +3,16 @@ import type { RegistrationStatus } from '../../infrastructure/prisma/generated/c
 export interface August2026Competition {
   gender: string;
   name: string;
-  category: string;
   level: string;
-  age: number;
   phone: string;
 }
 
 export interface FilterAugust2026Competition {
+  id?: string;
   slug?: string;
   status?: RegistrationStatus;
   email?: string;
-  age?: number;
   level?: string;
-  category?: string;
   name?: string;
   phone?: string;
   gender?: string;

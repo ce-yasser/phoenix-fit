@@ -113,7 +113,7 @@ export class CompetitionService {
         data: {
           name: user.name ?? null,
           level: competitionDto.level,
-          category: competitionDto.category,
+          gender: competitionDto.gender,
           amount: String(competition.fee ?? 0),
           registrationId: competition.id,
           statusUrl: `${this.configService.get('BASE_URL')}/competition/${competition.id}`,

@@ -9,11 +9,6 @@ export class FilterAugust2026Dto {
   @IsEnum(RegistrationStatus)
   status?: RegistrationStatus;
 
-  @IsOptional()
-  @Transform(({ value }) => value?.trim())
-  @Type(() => Number)
-  @IsInt()
-  age?: number;
 
   @IsOptional()
   @Transform(({ value }) => value?.trim())
@@ -22,14 +17,15 @@ export class FilterAugust2026Dto {
 
   @IsOptional()
   @Transform(({ value }) => value?.trim())
-  @IsIn(['strength', 'endurance', 'flexibility'])
-  category?: string;
+  @IsString()
+  @Length(2, 36)
+  name?: string;
 
   @IsOptional()
   @Transform(({ value }) => value?.trim())
   @IsString()
-  @Length(2, 36)
-  name?: string;
+  @Length(26, 26)
+  id?: string;
 
   @IsOptional()
   @Transform(({ value }) => value?.trim())

@@ -36,6 +36,16 @@ export const programs = {
         'Elite Final: skill flow of planche lean, front lever, handstand walk',
       ],
     },
+    {
+      title: 'FreeStyle',
+      fee: 800,
+      qualifier: [
+        'Athletes perform a qualification round consisting of 2-minute freestyle routines',
+      ],
+      final: [
+        'The top surviving competitors face off in the final stage to determine the absolute champion.',
+      ],
+    },
   ],
   women: [
     {

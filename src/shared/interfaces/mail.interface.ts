@@ -13,7 +13,7 @@ export interface MailOtpData {
 export interface RegistrationConfirmedData {
   name?: string | null;
   level: string;
-  category: string;
+  gender: string;
   registrationId: string;
   qrCodeImage: Buffer<ArrayBufferLike>;
   statusUrl: string;
@@ -22,7 +22,7 @@ export interface RegistrationConfirmedData {
 export interface RegistrationRejectedData {
   name?: string | null;
   level: string;
-  category: string;
+  gender: string;
   registrationId: string;
   rejectionReason: string;
   resubmitUrl: string;
@@ -31,7 +31,7 @@ export interface RegistrationRejectedData {
 export interface RegistrationReceivedData {
   name?: string | null;
   level: string;
-  category: string;
+  gender: string;
   amount: string;
   registrationId: string;
   statusUrl: string;

@@ -9,13 +9,13 @@ export function template(data: I.RegistrationReceivedData): string {
       <tr>
         <td style="padding: 20px 24px;">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          <tr class="pf-stack">
+            <td style="padding:6px 0; font-size:13px; color:#8a8a8a;">Gender</td>
+            <td align="right" style="padding:6px 0; font-size:13px; font-weight:bold; color:#1f1f1f;">${data.gender}</td>
+          </tr>
             <tr class="pf-stack">
               <td style="padding:6px 0; font-size:13px; color:#8a8a8a;">Level</td>
               <td align="right" style="padding:6px 0; font-size:13px; font-weight:bold; color:#1f1f1f;">${data.level}</td>
-            </tr>
-            <tr class="pf-stack">
-              <td style="padding:6px 0; font-size:13px; color:#8a8a8a;">Category</td>
-              <td align="right" style="padding:6px 0; font-size:13px; font-weight:bold; color:#1f1f1f;">${data.category}</td>
             </tr>
             <tr class="pf-stack">
               <td style="padding:6px 0; font-size:13px; color:#8a8a8a;">Amount Paid</td>
@@ -43,7 +43,7 @@ export function template(data: I.RegistrationReceivedData): string {
     body,
     status: 'Pending Review',
     supportMessage: 'Questions about your registration?',
-    preheader: `We've received your payment for ${data.level} • ${data.category} — pending admin approval.`,
+    preheader: `We've received your payment for ${data.gender} • ${data.level} — pending admin approval.`,
   });
 }
 

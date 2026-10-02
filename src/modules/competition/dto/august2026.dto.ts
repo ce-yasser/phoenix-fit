@@ -1,11 +1,4 @@
-import {
-  IsIn,
-  IsNumber,
-  IsNumberString,
-  IsString,
-  Length,
-  Min,
-} from 'class-validator';
+import { IsIn, IsNumberString, IsString, Length } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class August2026Dto {
@@ -17,17 +10,8 @@ export class August2026Dto {
   @Length(2, 36)
   name!: string;
 
-  @Transform(({ value }) => value?.trim())
-  @IsIn(['strength', 'endurance', 'flexibility'])
-  category!: string;
-
-  @IsIn(['intermediate', 'advanced', 'elite'])
+  @IsIn(['intermediate', 'advanced', 'elite', 'freestyle'])
   level!: string;
-
-  @Transform(({ value }) => parseInt(value, 10))
-  @IsNumber({}, { message: 'Age must be a number.' })
-  @Min(12)
-  age!: number;
 
   @Transform(({ value }) => value?.trim())
   @IsNumberString()
