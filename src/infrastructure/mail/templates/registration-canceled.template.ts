@@ -55,6 +55,7 @@ export function template(data: I.RegistrationRejectedData): string {
     status: 'Registration Canceled',
     supportMessage: 'Need help?',
     preheader: `Your registration for ${data.gender} • ${data.level} has been canceled.`,
+    isRejection: true,
   });
 }
 
