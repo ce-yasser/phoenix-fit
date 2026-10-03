@@ -28,6 +28,13 @@ export class AdminCompetitionController extends BaseAdminController {
     @Param('id') id: string,
     @Body() body: UpdateStatusDto,
   ) {
-    return this.competitionService.updateStatus(id, body.status, user.sub);
+    const reason = typeof body.reason === 'string' ? body.reason : undefined;
+
+    return this.competitionService.updateStatus(
+      id,
+      body.status,
+      user.sub,
+      reason,
+    );
   }
 }

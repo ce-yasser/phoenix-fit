@@ -42,7 +42,12 @@ export class AdminCompetitionService {
     return { data: competition };
   }
 
-  async updateStatus(id: string, status: RegistrationStatus, userId: number) {
+  async updateStatus(
+    id: string,
+    status: RegistrationStatus,
+    userId: number,
+    reason?: string,
+  ) {
     const competition = await this._competitionsService.getCompetitionById(
       id,
       0,
@@ -59,7 +64,6 @@ export class AdminCompetitionService {
       );
     }
 
-    // if status is not of RegistrationStatus
     if (!Object.values(RegistrationStatus).includes(status)) {
       throw new MethodNotAllowedException(
         `Invalid status: ${status}. Allowed statuses are: ${Object.values(
@@ -69,20 +73,25 @@ export class AdminCompetitionService {
     }
 
     const user = await this.usersService.getUserById(userId);
+    const historyValue =
+      status === RegistrationStatus.REJECTED
+        ? `Registration rejected: ${reason}`
+        : `Status updated to ${status}`;
+
     const updatedCompetition =
       await this._competitionsService.updateCompetitionById(id, {
         status: status,
         history: [
           {
             time: new Date().toISOString(),
-            value: `Status updated to ${status}`,
+            value: historyValue,
             author: `#${userId} ${user?.name ?? ''}`,
           },
           ...competition.history,
         ] as Prisma.InputJsonValue[],
       });
 
-    if (updatedCompetition.status === 'CONFIRMED') {
+    if (updatedCompetition.status === RegistrationStatus.CONFIRMED) {
       const competitorId = updatedCompetition.userId;
       const competitor = await this.usersService.getUserById(competitorId);
       if (competitor?.email) {
@@ -100,6 +109,26 @@ export class AdminCompetitionService {
               `${this.configService.get('BASE_URL')}/admin/competition/${competition.id}`,
               `${competition.id}.png`,
             ),
+          },
+        });
+      }
+    }
+
+    if (updatedCompetition.status === RegistrationStatus.REJECTED) {
+      const competitorId = updatedCompetition.userId;
+      const competitor = await this.usersService.getUserById(competitorId);
+      if (competitor?.email) {
+        const competitionDto =
+          updatedCompetition.data as unknown as I.August2026Competition;
+        await this.mailService.sendFromAdminToUser(competitor.email, {
+          type: 'registration-rejected',
+          data: {
+            name: competitor.name,
+            level: competitionDto.level,
+            gender: competitionDto.gender,
+            registrationId: competition.id,
+            rejectionReason: reason?.trim() ?? 'No reason provided.',
+            resubmitUrl: `${this.configService.get('BASE_URL')}/competition/${competition.id}`,
           },
         });
       }

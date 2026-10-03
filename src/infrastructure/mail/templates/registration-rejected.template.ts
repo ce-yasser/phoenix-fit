@@ -55,6 +55,7 @@ export function template(data: I.RegistrationRejectedData): string {
     status: 'Registration Not Approved',
     supportMessage: 'Think this was a mistake?',
     preheader: `Your registration for ${data.gender} • ${data.level} could not be approved.`,
+    isRejection: true,
   });
 }
 

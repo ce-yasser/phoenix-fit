@@ -13,6 +13,7 @@ export interface BuildEmailTemplateOptions {
   status?: string;
   supportMessage?: string;
   preheader?: string;
+  isRejection?: boolean;
 }
 
 export class BaseEmailTemplate {
@@ -23,6 +24,7 @@ export class BaseEmailTemplate {
     status,
     supportMessage,
     preheader,
+    isRejection = false,
   }: BuildEmailTemplateOptions): string {
     return `
 <!DOCTYPE html>
@@ -63,7 +65,7 @@ export class BaseEmailTemplate {
       <tr>
         <td align="center" style="padding: 32px 16px;">
           <table role="presentation" class="pf-container" width="600" cellpadding="0" cellspacing="0" style="width:600px; max-width:600px; background-color:#ffffff; border-radius:12px; overflow:hidden; border:1px solid #ececec;">
-            ${this.renderHeader(status)}
+            ${this.renderHeader(status, isRejection)}
             ${this.renderContent({ title, name, body })}
             ${this.renderFooter(supportMessage)}
           </table>
@@ -75,13 +77,14 @@ export class BaseEmailTemplate {
     `.trim();
   }
 
-  static renderHeader(status: string = ''): string {
+  static renderHeader(status: string = '', isRejection: boolean = false): string {
     const logo = new ConfigService().get<string>('logo');
+    const statusColor = isRejection ? '#ef4444' : '#1e8a44';
     const statusRow = status
       ? `
         <tr>
           <td align="center" style="background-color:#eaf7ee; padding: 12px 24px; border-bottom:1px solid #cdedd6;">
-            <span style="font-family: Arial, Helvetica, sans-serif; font-size:12px; font-weight:bold; letter-spacing:0.05em; text-transform:uppercase; color:#1e8a44;">
+            <span style="font-family: Arial, Helvetica, sans-serif; font-size:12px; font-weight:bold; letter-spacing:0.05em; text-transform:uppercase; color:${statusColor};">
               &#9679;&nbsp; ${escapeHtml(status)}
             </span>
           </td>
