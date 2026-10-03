@@ -76,7 +76,9 @@ export class AdminCompetitionService {
     const historyValue =
       status === RegistrationStatus.REJECTED
         ? `Registration rejected: ${reason}`
-        : `Status updated to ${status}`;
+        : status === RegistrationStatus.CANCELED
+          ? `Registration canceled: ${reason}`
+          : `Status updated to ${status}`;
 
     const updatedCompetition =
       await this._competitionsService.updateCompetitionById(id, {
@@ -114,20 +116,26 @@ export class AdminCompetitionService {
       }
     }
 
-    if (updatedCompetition.status === RegistrationStatus.REJECTED) {
+    if (
+      updatedCompetition.status === RegistrationStatus.REJECTED ||
+      updatedCompetition.status === RegistrationStatus.CANCELED
+    ) {
       const competitorId = updatedCompetition.userId;
       const competitor = await this.usersService.getUserById(competitorId);
       if (competitor?.email) {
         const competitionDto =
           updatedCompetition.data as unknown as I.August2026Competition;
         await this.mailService.sendFromAdminToUser(competitor.email, {
-          type: 'registration-rejected',
+          type:
+            updatedCompetition.status === RegistrationStatus.CANCELED
+              ? 'registration-canceled'
+              : 'registration-rejected',
           data: {
             name: competitor.name,
             level: competitionDto.level,
             gender: competitionDto.gender,
             registrationId: competition.id,
-            rejectionReason: reason?.trim() ?? 'No reason provided.',
+            rejectionReason: reason ?? 'No reason provided.',
             resubmitUrl: `${this.configService.get('BASE_URL')}/competition/${competition.id}`,
           },
         });

@@ -2,7 +2,8 @@ export type MailContext =
   | { type: 'otp'; data: MailOtpData }
   | { type: 'registration-received'; data: RegistrationReceivedData }
   | { type: 'registration-confirmed'; data: RegistrationConfirmedData }
-  | { type: 'registration-rejected'; data: RegistrationRejectedData };
+  | { type: 'registration-rejected'; data: RegistrationRejectedData }
+  | { type: 'registration-canceled'; data: RegistrationRejectedData };
 
 export interface MailOtpData {
   otp: string;
