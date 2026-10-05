@@ -2,7 +2,7 @@ export const programs = {
   men: [
     {
       title: 'Intermediate',
-      fee: 600,
+      fee: 1000,
       qualifier: [
         '8 pull-ups + 16 push-ups + 24 air squats (for time)',
         '2 rounds: 12 knee raises + 12 burpees',
@@ -14,7 +14,7 @@ export const programs = {
     },
     {
       title: 'Advanced',
-      fee: 800,
+      fee: 1000,
       qualifier: [
         '5 muscle-up attempts + 20 box jump-overs',
         '4 rounds: 10 toes-to-bar + 12 explosive push-ups',
@@ -26,7 +26,7 @@ export const programs = {
     },
     {
       title: 'Elite',
-      fee: 800,
+      fee: 1500,
       qualifier: [
         'Complex: 3 bar muscle-ups, 6 ring dips, 9 pull-ups x 3 rounds',
         'Sprint station: rope climb + weighted carry + burpee broad jumps',
@@ -38,7 +38,7 @@ export const programs = {
     },
     {
       title: 'FreeStyle',
-      fee: 800,
+      fee: 1500,
       qualifier: [
         'Athletes perform a qualification round consisting of 2-minute freestyle routines',
       ],
@@ -50,7 +50,7 @@ export const programs = {
   women: [
     {
       title: 'Advanced',
-      fee: 600,
+      fee: 1000,
       qualifier: [
         '3 muscle-up progressions/strict reps + 16 box jump-overs',
         '4 rounds: 8 toes-to-bar + 10 explosive push-ups',
@@ -62,7 +62,7 @@ export const programs = {
     },
     {
       title: 'Elite',
-      fee: 800,
+      fee: 1500,
       qualifier: [
         'Complex: 2-4 muscle-ups, 8 ring dips, 10 pull-ups x 3 rounds',
         'Sprint station: rope climb variation + shuttle runs + burpees',
