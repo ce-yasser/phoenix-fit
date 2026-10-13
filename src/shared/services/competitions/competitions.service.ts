@@ -28,7 +28,7 @@ export class CompetitionsService {
     // if gender is women, and level is intermediate, return 400 error
     if (
       programGender === 'women' &&
-      ['intermediate', 'freestyle'].includes(data.level)
+      ['intermediate', 'freestyle', 'power'].includes(data.level)
     ) {
       throw new MethodNotAllowedException(
         'Women cannot register for the intermediate level',

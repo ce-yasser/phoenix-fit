@@ -10,7 +10,7 @@ export class August2026Dto {
   @Length(2, 36)
   name!: string;
 
-  @IsIn(['intermediate', 'advanced', 'elite', 'freestyle'])
+  @IsIn(['intermediate', 'advanced', 'elite', 'freestyle', 'power'])
   level!: string;
 
   @Transform(({ value }) => value?.trim())

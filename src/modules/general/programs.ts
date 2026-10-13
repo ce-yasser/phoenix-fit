@@ -89,19 +89,20 @@ export const programs = {
       title: 'FreeStyle',
       fee: 1500,
       qualifier: [
-        '1-minute freestyle battles',
-        'Knockout format',
-        'Winners advance to the finals',
-      ],
-      final: [
-        'Qualified athletes compete in the finals',
-        '2 minutes per athlete',
-        'Judges select the competition champion',
+        'Stay tuned for freestyle battles',
+      //   '1-minute freestyle battles',
+      //   'Knockout format',
+      //   'Winners advance to the finals',
+      // ],
+      // final: [
+      //   'Qualified athletes compete in the finals',
+      //   '2 minutes per athlete',
+      //   'Judges select the competition champion',
       ],
     },
     {
       title: 'Power',
-      fee: 1500,
+      fee: 1000,
       qualifier: [
         'One-rep max (1RM)',
         'Weighted squat',
@@ -110,7 +111,6 @@ export const programs = {
         'Weighted dip',
         'Eligibility: Intermediate and Advanced athletes only; Elite athletes are not eligible',
       ],
-      final: [],
     },
   ],
   women: [
@@ -126,7 +126,6 @@ export const programs = {
         '30-second dead hang',
         'Time cap: 5 min',
       ],
-      final: [],
     },
     {
       title: 'Elite',
