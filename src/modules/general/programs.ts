@@ -102,7 +102,7 @@ export const programs = {
     },
     {
       title: 'Power',
-      fee: 1000,
+      fee: 1500,
       qualifier: [
         'One-rep max (1RM)',
         'Weighted squat',
