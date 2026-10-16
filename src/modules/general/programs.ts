@@ -90,14 +90,6 @@ export const programs = {
       fee: 1500,
       qualifier: [
         'Stay tuned for freestyle battles',
-      //   '1-minute freestyle battles',
-      //   'Knockout format',
-      //   'Winners advance to the finals',
-      // ],
-      // final: [
-      //   'Qualified athletes compete in the finals',
-      //   '2 minutes per athlete',
-      //   'Judges select the competition champion',
       ],
     },
     {
