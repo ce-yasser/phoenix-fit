@@ -105,11 +105,9 @@ export const programs = {
       fee: 1500,
       qualifier: [
         'One-rep max (1RM)',
-        'Weighted squat',
-        'Weighted muscle-up',
-        'Weighted pull-up',
-        'Weighted dip',
-        'Eligibility: Intermediate and Advanced athletes only; Elite athletes are not eligible',
+        'Weighted pull-ups 20Kg',
+        'Weighted dips 35Kg',
+        'Muscle-ups body weight'
       ],
     },
   ],
