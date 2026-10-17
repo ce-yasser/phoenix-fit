@@ -14,6 +14,9 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
     const pool = new Pool({
       connectionString,
+      max: 5,
+      idleTimeoutMillis: 20 * 60 * 1000,
+      connectionTimeoutMillis: 5_000,
     });
 
     const adapter = new PrismaPg(pool);
