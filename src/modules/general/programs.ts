@@ -39,7 +39,7 @@ export const programs = {
       final: [
         '10 pull-ups',
         '1 muscle-up',
-        '20 SBD',
+        '20 straight bar dips',
         '2 muscle-ups',
         '10 toes-to-bar (T2B)',
         '3 muscle-ups',
@@ -57,7 +57,7 @@ export const programs = {
       fee: 1500,
       qualifier: [
         '5 muscle-ups',
-        '15 SBD',
+        '15 straight bar dips',
         '15 pull-ups',
         '15 box jumps',
         '15 squats (20 kg)',
@@ -70,7 +70,7 @@ export const programs = {
       final: [
         '5 pull-ups',
         '5 muscle-ups',
-        '10 SBD',
+        '10 straight bar dips',
         '5 pull-ups (unbroken)',
         '20 box jumps',
         '15 toes-to-bar (T2B)',
