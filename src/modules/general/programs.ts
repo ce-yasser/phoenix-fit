@@ -96,7 +96,7 @@ export const programs = {
       title: 'Power',
       fee: 1500,
       qualifier: [
-        'One-rep max (1RM)',
+        'One set, Max Rep',
         'Weighted pull-ups 20Kg',
         'Weighted dips 35Kg',
         'Muscle-ups body weight'
