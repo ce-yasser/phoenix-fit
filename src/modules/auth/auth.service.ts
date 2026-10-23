@@ -42,9 +42,9 @@ export class AuthService {
         isNewUser: !existingUser.emailVerified,
       };
 
-      if (isDev && existingUser.otp) {
-        response.otp = existingUser.otp;
-      }
+      // if (isDev && existingUser.otp) {
+      //   response.otp = existingUser.otp;
+      // }
       return {
         data: response,
       };
@@ -91,9 +91,9 @@ export class AuthService {
       isNewUser: !existingUser,
     };
 
-    if (isDev) {
-      response.otp = otp;
-    }
+    // if (isDev) {
+    //   response.otp = otp;
+    // }
     return {
       data: response,
     };
