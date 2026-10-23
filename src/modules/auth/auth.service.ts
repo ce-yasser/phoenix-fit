@@ -26,17 +26,27 @@ export class AuthService {
       existingUser?.otpCreatedAt &&
       existingUser.otpCreatedAt.getTime() + this.duplicateOtpWindowIn >
         Date.now();
+    const isDev = this.configService.get<boolean>('IS_DEV');
 
     if (disableOtpGeneration) {
+      const response: {
+        message: string;
+        expiresAfter: number;
+        isNewUser: boolean;
+        otp?: string;
+      } = {
+        message: 'duplicate',
+        expiresAfter: this.getDuplicateOtpWindow(
+          existingUser.otpCreatedAt || new Date(),
+        ),
+        isNewUser: !existingUser.emailVerified,
+      };
+
+      if (isDev && existingUser.otp) {
+        response.otp = existingUser.otp;
+      }
       return {
-        data: {
-          message: 'duplicate',
-          otp: existingUser.otp,
-          expiresAfter: this.getDuplicateOtpWindow(
-            existingUser.otpCreatedAt || new Date(),
-          ),
-          isNewUser: !existingUser.emailVerified,
-        },
+        data: response,
       };
     }
 
@@ -69,8 +79,6 @@ export class AuthService {
         otp,
       },
     });
-
-    const isDev = this.configService.get<boolean>('IS_DEV');
 
     const response: {
       message: string;
